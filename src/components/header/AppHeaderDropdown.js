@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from "react-router-dom"
+
 import {
   CAvatar,
   CBadge,
@@ -25,6 +27,12 @@ import CIcon from '@coreui/icons-react'
 import avatar8 from './../../assets/images/avatars/8.jpg'
 
 const AppHeaderDropdown = () => {
+
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const roles = localStorage.getItem("roles");
+  const email = localStorage.getItem("email");
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -69,24 +77,10 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilCreditCard} className="me-2" />
-          Payments
-          <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilFile} className="me-2" />
-          Projects
-          <CBadge color="primary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem href="/#/login">
           <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

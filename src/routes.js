@@ -40,6 +40,8 @@ const Validation = React.lazy(() => import('./views/forms/validation/Validation'
 
 const Charts = React.lazy(() => import('./views/charts/Charts'))
 
+const Logout = React.lazy(() => import('./views/pages/logout/Logout'))
+
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
@@ -99,6 +101,7 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/logout', name: 'Logout', element: Logout },
 ]
 
 export default routes

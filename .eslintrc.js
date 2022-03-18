@@ -24,8 +24,7 @@ module.exports = {
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
   root: true,
-  extends: '@react-native-community',
   rules: {
     'prettier/prettier': 0,
-  },
+  }
 }
