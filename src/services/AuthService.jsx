@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 
 export async function login(username, password){
 
-    console.log("i am here");
     let {data:jwt} = await axios.post(API_URL+"/auth/login",{username,password});
     localStorage.setItem("token",jwt.token);
     localStorage.setItem("username",jwt.username);
@@ -14,7 +13,6 @@ export async function login(username, password){
 }
 
 export function logout(){
-
 
   localStorage.removeItem("token");
   localStorage.removeItem("roles");
