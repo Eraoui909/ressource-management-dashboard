@@ -13,6 +13,7 @@ import {
   cilStar,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import Teachers from './views/departement/Teachers';
 
 const _nav = [
   {
@@ -34,6 +35,30 @@ const _nav = [
     name: 'Computers',
     to: '/resources/computers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavGroup,
+    name: 'Departement',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Departments',
+        to: '/departement/departments',
+      },
+      {
+        component: CNavItem,
+        name: 'Teachers',
+        to: '/departement/teachers',
+      },
+      {
+        component: CNavItem,
+        name: 'Administrative',
+        to: '/departement/administrative',
+      },
+
+
+    ],
   },
   {
     component: CNavItem,
