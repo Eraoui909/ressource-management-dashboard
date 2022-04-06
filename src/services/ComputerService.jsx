@@ -10,6 +10,12 @@ export const getAll = async () =>{
     return Computers;
 }
 
+export const getAllOwners = async () =>{
+
+  let {data:Owners} = await axios.get(RESOURCES_API_URL+"/owners/")
+  return Owners;
+}
+
 export const addComputer = async (computer) =>{
 
   await axios.post(RESOURCES_API_URL + "/computers/add", computer).then(
@@ -41,9 +47,6 @@ export const updateComputer = async (computer) =>{
 export const deleteComputer = async (id) =>{
 
   await axios.delete(RESOURCES_API_URL + "/computers/delete/" + id);
-  setTimeout(()=>{
-    window.location.reload()
-  },500);
 }
 
 export const getComputer = async (id) =>{
