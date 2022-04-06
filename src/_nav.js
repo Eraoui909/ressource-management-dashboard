@@ -1,5 +1,8 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
+import CPrinter from '@coreui/icons-react'
+
+
 import {
   cilBell,
   cilCalculator,
@@ -30,10 +33,23 @@ const _nav = [
     name: 'Departement',
   },
   {
-    component: CNavItem,
-    name: 'Computers',
-    to: '/resources/computers',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    component: CNavGroup,
+    name: 'Ressources',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [ 
+      {
+        component: CNavItem,
+        name: 'Computers',
+        to: '/resources/computers',
+        icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Printers',
+        to: '/resources/printers',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      },
+    ],
   },
   {
     component: CNavItem,

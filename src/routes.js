@@ -5,6 +5,8 @@ const Teachers = React.lazy(() => import('./views/departement/Teachers'))
 
 const Computers = React.lazy(() => import('./views/ressources/Computers'))
 
+const Printers = React.lazy(() => import('./views/ressources/Printers'))
+
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -61,6 +63,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/resources/computers', name: 'Computers', element: Computers },
+  { path: '/resources/printers', name: 'Computers', element: Printers },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },

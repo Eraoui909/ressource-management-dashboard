@@ -1,6 +1,6 @@
 import { CForm, CFormInput, CModal, CModalBody, CModalHeader, CModalTitle, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose } from '@coreui/react';
 import React, { useEffect, useState } from 'react';
-import { addComputer, getAll,deleteComputer, getComputer, updateComputer, getAllOwners } from 'src/services/ComputerService';
+import { addPrinter, getAll,deletePrinter, getPrinter, updatePrinter, getAllOwners } from 'src/services/PrinterService';
 import { CButton } from '@coreui/react';
 import { CFormLabel, CFormSelect } from '@coreui/react';
 import Swal from 'sweetalert2'
@@ -9,30 +9,27 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 
-const Computers = () => {
+const Printers = () => {
 
-  const [computers, setComputers]              = useState([])
+  const [printers, setPrinters]               = useState([])
   const [owners, setOwners]                   = useState([])
   const [owner, setOwner]                     = useState("")
   const [visibleLg, setVisibleLg]             = useState(false)
   const [visibleUpdate, setVisibleUpdate]     = useState(false)
   const [_id, setId]                          = useState("")
-  // const [idERROR, setIdERROR]                 = useState("")
   const [provider, setProvider]               = useState("")
   const [providerERROR,setProviderERROR]      = useState("")
-  const [CPU, setCPU]                         = useState("")
-  const [CPUERROR,setCPUERROR]                = useState("")
+  const [speed, setSpeed]                     = useState("")
+  const [speedERROR,setSpeedERROR]            = useState("")
   const [marque,setMarque]                    = useState("")
   const [marqueERROR,setMarqueERROR]          = useState("")
-  const [hardDisk,setHardDisk]                = useState("")
-  const [hardDiskERROR,setHardDiskERROR]      = useState("")
-  const [screen, setScreen]                   = useState("")
-  const [screenERROR, setScreenERROR]         = useState("")
+  const [resolution,setResolution]            = useState("")
+  const [resolutionERROR,setResolutionERROR]  = useState("")
   const [warranty, setWarranty]               = useState("")
   const [warrantyERROR,setWarrantyERROR]      = useState("")
+  const [affectedTo, setAffectedTo]           = useState("No One")
   const [date, setDate]                       = useState("")
   const [dateERROR, setDateERROR]             = useState("")
-  const [affectedTo, setAffectedTo]           = useState("No One")
 
 
   useEffect( ()=>{
@@ -40,7 +37,7 @@ const Computers = () => {
     getAll().then(
       (resp) =>{
         // console.log(resp);
-        setComputers(resp);
+        setPrinters(resp);
       }
     )
 
@@ -52,24 +49,22 @@ const Computers = () => {
     )
   },[])
 
-  const handleAddComputer = () =>{
+  const handleAddPrinter = () =>{
 
     (provider.trim() === "") ? setProviderERROR("provider field is required") : setProviderERROR("");
-    (CPU.trim() === "")      ? setCPUERROR("CPU field is required")           : setCPUERROR("");
     (marque.trim() === "")   ? setMarqueERROR("Marque field is required")     : setMarqueERROR("");
-    (hardDisk.trim() === "") ? setHardDiskERROR("HardDisk field is required") : setHardDiskERROR("");
-    (screen.trim() === "")   ? setScreenERROR("Screen field is required")     : setScreenERROR("");
+    (speed.trim() === "") ? setSpeedERROR("Speed field is required") : setSpeedERROR("");
+    (resolution.trim() === "")   ? setResolutionERROR("Resolution field is required")     : setResolutionERROR("");
     (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
     (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
 
-    if(provider.trim() !== "" && CPU.trim()!=="" && marque.trim() !== "" && hardDisk.trim() !== "" && screen.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
+    if(provider.trim() !== "" && marque.trim() !== "" && speed.trim() !== "" && resolution.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
 
-      addComputer({
+      addPrinter({
         "provider" : provider,
-        "cpu"      : CPU,
         "marque"   : marque,
-        "hardDisk" : hardDisk,
-        "screen"   : screen,
+        "speed" : speed,
+        "resolution"   : resolution,
         "warrantyPeriod" : warranty,
         "date"     : date,
         "affectedTo" : owner,
@@ -78,14 +73,14 @@ const Computers = () => {
       Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'Computer added with success',
+        title: 'Printer added with success',
         showConfirmButton: false,
         timer: 1500
       })
       getAll().then(
         (resp) =>{
           // console.log(resp);
-          setComputers(resp);
+          setPrinters(resp);
         }
       )
       setVisibleLg(!visibleLg)
@@ -95,22 +90,20 @@ const Computers = () => {
   const handleUpdate = (id)=>{
 
     (provider.trim() === "") ? setProviderERROR("provider field is required") : setProviderERROR("");
-    (CPU.trim() === "")      ? setCPUERROR("CPU field is required")           : setCPUERROR("");
     (marque.trim() === "")   ? setMarqueERROR("Marque field is required")     : setMarqueERROR("");
-    (hardDisk.trim() === "") ? setHardDiskERROR("HardDisk field is required") : setHardDiskERROR("");
-    (screen.trim() === "")   ? setScreenERROR("Screen field is required")     : setScreenERROR("");
+    (speed.trim() === "") ? setSpeedERROR("Speed field is required") : setSpeedERROR("");
+    (resolution.trim() === "")   ? setResolutionERROR("Resolution field is required")     : setResolutionERROR("");
     (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
     (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
 
-    if(provider.trim() !== "" && CPU.trim()!=="" && marque.trim() !== "" && hardDisk.trim() !== "" && screen.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
+    if(provider.trim() !== "" && marque.trim() !== "" && speed.trim() !== "" && resolution.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
 
-      updateComputer({
+      updatePrinter({
         "id"       : _id,
         "provider" : provider,
-        "cpu"      : CPU,
         "marque"   : marque,
-        "hardDisk" : hardDisk,
-        "screen"   : screen,
+        "speed" : speed,
+        "resolution"   : resolution,
         "warrantyPeriod" : warranty,
         "date"     : date,
         "affectedTo" : owner,
@@ -120,14 +113,14 @@ const Computers = () => {
       Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'Computer updated with success',
+        title: 'Printer updated with success',
         showConfirmButton: false,
         timer: 1500
       })
       getAll().then(
         (resp) =>{
-          console.log(resp);
-          setComputers(resp);
+          // console.log(resp);
+          setPrinters(resp);
         }
       )
     }
@@ -135,17 +128,15 @@ const Computers = () => {
 
   const showUpdateModal = (id) => {
 
-    setVisibleUpdate(!visibleUpdate)
-    let computer = getComputer(id);
+    let printer = getPrinter(id);
 
-    computer.then(
+    printer.then(
       (resp)=>{
         setId(resp.id)
         setProvider(resp.provider)
-        setCPU(resp.cpu)
         setMarque(resp.marque)
-        setHardDisk(resp.hardDisk)
-        setScreen(resp.screen)
+        setSpeed(resp.speed)
+        setResolution(resp.resolution)
         setWarranty(resp.warrantyPeriod)
         setDate(resp.date)
         owners.forEach((item, index)=>{
@@ -155,9 +146,10 @@ const Computers = () => {
         })
       }
     )
+    setVisibleUpdate(!visibleUpdate);
   }
 
-  const deleteComp = (id)=> {
+  const deletePrint = (id)=> {
 
     MySwal.fire({
       title: 'Are you sure?',
@@ -170,16 +162,16 @@ const Computers = () => {
     }).then((result) => {
 
       if (result.isConfirmed) {
-        deleteComputer(id);
+        deletePrinter(id);
         MySwal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'Printer has been deleted.',
           'success'
         )
         getAll().then(
           (resp) =>{
-            // console.log(resp);
-            setComputers(resp);
+            console.log(resp);
+            setPrinters(resp);
           }
         )
       }
@@ -191,17 +183,16 @@ const Computers = () => {
 
 
     <div style={{backgroundColor:"#fff",padding:"15px"}}>
-      <CButton color="info" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Add Computer</CButton>
+      <CButton color="info" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Add Printer</CButton>
 
       <CTable bordered>
       <CTableHead>
         <CTableRow>
           <CTableHeaderCell scope="col">#</CTableHeaderCell>
           <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
-          <CTableHeaderCell scope="col">CPU</CTableHeaderCell>
           <CTableHeaderCell scope="col">Marque</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Hard Disk</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Screen</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Speed</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Resolution</CTableHeaderCell>
           <CTableHeaderCell scope="col">Warranty</CTableHeaderCell>
           <CTableHeaderCell scope="col">Date</CTableHeaderCell>
           <CTableHeaderCell scope="col">Affected To</CTableHeaderCell>
@@ -210,21 +201,20 @@ const Computers = () => {
       <CTableBody>
 
         {
-          computers.map((t,index) =>{
+          printers.map((t,index) =>{
             return (
               <CTableRow key={index}>
                 <CTableHeaderCell scope="row">{t.id}</CTableHeaderCell>
                 <CTableDataCell>{t.provider}</CTableDataCell>
-                <CTableDataCell>{t.cpu}</CTableDataCell>
                 <CTableDataCell>{t.marque}</CTableDataCell>
-                <CTableDataCell>{t.hardDisk}</CTableDataCell>
-                <CTableDataCell>{t.screen}</CTableDataCell>
+                <CTableDataCell>{t.speed}</CTableDataCell>
+                <CTableDataCell>{t.resolution}</CTableDataCell>
                 <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
                 <CTableDataCell>{t.date}</CTableDataCell>
                 <CTableDataCell>{t.affectedTo ? t.affectedTo.name : "No One"}</CTableDataCell>
                 <CTableDataCell>
                     <CButton color="success" value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
-                    <CButton color="danger" value={t.id} onClick={(e)=> deleteComp(e.target.value)}>Delete</CButton>
+                    <CButton color="danger" value={t.id} onClick={(e)=> deletePrint(e.target.value)}>Delete</CButton>
                 </CTableDataCell>
             </CTableRow>
             )
@@ -238,7 +228,7 @@ const Computers = () => {
      {/* Update Computer Modal */}
     <CModal size="lg" visible={visibleUpdate} onClose={() => setVisibleUpdate(false)}>
       <CModalHeader>
-        <CModalTitle>Modify Computer</CModalTitle>
+        <CModalTitle>Modify Printer</CModalTitle>
       </CModalHeader>
       <CModalBody>
 
@@ -246,14 +236,6 @@ const Computers = () => {
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
           <CToastBody>{providerERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { CPUERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{CPUERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
@@ -266,18 +248,18 @@ const Computers = () => {
         </div>
       </CToast>
       }
-      { hardDiskERROR &&
+      { speedERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
-          <CToastBody>{hardDiskERROR}</CToastBody>
+          <CToastBody>{speedERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
       }
-      { screenERROR &&
+      { resolutionERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
-          <CToastBody>{screenERROR}</CToastBody>
+          <CToastBody>{resolutionERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
@@ -308,13 +290,6 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">CPU</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={CPU}
-            onChange={(e)=>{ setCPU(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Marque</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
             value={marque}
@@ -322,17 +297,17 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Hard disk</CFormLabel>
+          <CFormLabel htmlFor="exampleFormControlInput1">Speed</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
-            value={hardDisk}
-            onChange={(e)=>{ setHardDisk(e.target.value)}}
+            value={speed}
+            onChange={(e)=>{ setSpeed(e.target.value)}}
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Screen</CFormLabel>
+          <CFormLabel htmlFor="exampleFormControlInput1">Resolution</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
-            value={screen}
-            onChange={(e)=>{ setScreen(e.target.value)}}
+            value={resolution}
+            onChange={(e)=>{ setResolution(e.target.value)}}
           />
         </div>
         <div className="mb-3">
@@ -375,7 +350,7 @@ const Computers = () => {
 
     <CModal size="lg" visible={visibleLg} onClose={() => setVisibleLg(false)}>
       <CModalHeader>
-        <CModalTitle>Add new Computer</CModalTitle>
+        <CModalTitle>Add new Printer</CModalTitle>
       </CModalHeader>
       <CModalBody>
 
@@ -383,14 +358,6 @@ const Computers = () => {
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
           <CToastBody>{providerERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { CPUERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{CPUERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
@@ -403,18 +370,18 @@ const Computers = () => {
         </div>
       </CToast>
       }
-      { hardDiskERROR &&
+      { speedERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
-          <CToastBody>{hardDiskERROR}</CToastBody>
+          <CToastBody>{speedERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
       }
-      { screenERROR &&
+      { resolutionERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
-          <CToastBody>{screenERROR}</CToastBody>
+          <CToastBody>{resolutionERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
@@ -445,13 +412,6 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">CPU</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={CPU}
-            onChange={(e)=>{ setCPU(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Marque</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
             value={marque}
@@ -459,17 +419,17 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Hard disk</CFormLabel>
+          <CFormLabel htmlFor="exampleFormControlInput1">Speed</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
-            value={hardDisk}
-            onChange={(e)=>{ setHardDisk(e.target.value)}}
+            value={speed}
+            onChange={(e)=>{ setSpeed(e.target.value)}}
           />
         </div>
         <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Screen</CFormLabel>
+          <CFormLabel htmlFor="exampleFormControlInput1">Resolution</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
-            value={screen}
-            onChange={(e)=>{ setScreen(e.target.value)}}
+            value={resolution}
+            onChange={(e)=>{ setResolution(e.target.value)}}
           />
         </div>
         <div className="mb-3">
@@ -502,7 +462,7 @@ const Computers = () => {
         </div>
       </CForm>
 
-      <CButton color="success" onClick={handleAddComputer} style={{margin:"10px"}}>Add</CButton>
+      <CButton color="success" onClick={handleAddPrinter} style={{margin:"10px"}}>Add</CButton>
       <CButton color="danger" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Cancel</CButton>
 
 
@@ -511,4 +471,4 @@ const Computers = () => {
   </>)
 }
 
-export default Computers;
+export default Printers;
