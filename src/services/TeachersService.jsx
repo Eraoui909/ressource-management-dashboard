@@ -25,7 +25,6 @@ export const addNewTeacher = async (teacher) =>{
 
 export const updateTeacher = async (teacher) =>{
 
-  console.log(teacher)
   await axios.post(TEACHER_API_URL+"/teachers/update",teacher).then(
     (response) =>{
       return response;

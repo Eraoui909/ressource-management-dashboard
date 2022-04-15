@@ -1,4 +1,4 @@
-import { CForm, CFormInput, CModal, CModalBody, CModalHeader, CModalTitle, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose } from '@coreui/react';
+import { CAlert, CForm, CFormInput, CModal, CModalBody, CModalHeader, CModalTitle, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose } from '@coreui/react';
 import React, { useEffect, useState } from 'react';
 import { addNewTeacher, getTeachers,deleteTeacherService, getTeacher, updateTeacher } from 'src/services/TeachersService';
 import { CButton } from '@coreui/react';
@@ -11,11 +11,11 @@ const MySwal = withReactContent(Swal)
 
 const Teachers = () => {
 
+  // states variables
   const [teachers,setTeachers]                = useState([])
   const [visibleLg, setVisibleLg]             = useState(false)
   const [visibleUpdate, setVisibleUpdate]     = useState(false)
-  const [_id,setId]                            = useState("")
-  const [idERROR,setIdERROR]                  = useState("")
+  const [_id,setId]                           = useState("")
   const [name,setName]                        = useState("")
   const [nameERROR,setNameERROR]              = useState("")
   const [email,setEmail]                      = useState("")
@@ -24,7 +24,10 @@ const Teachers = () => {
   const [phoneERROR,setPhoneERROR]            = useState("")
   const [address,setAddress]                  = useState("")
   const [addressERROR,setAddressERROR]        = useState("")
+  const [laboratoire,setLaboratoire]          = useState("")
+  const [laboratoireERROR,setLaboratoireERROR]   = useState("")
 
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   useEffect( ()=>{
 
@@ -35,16 +38,24 @@ const Teachers = () => {
       )
   },[])
 
+  // add teacher action
   const handleAddTeacher = () =>{
 
     (name.trim() === "")?setNameERROR("name field is required"):setNameERROR("");
-    (email.trim() === "")?setEmailERROR("email field is required"):setEmailERROR("");
+    if(email.trim() === ""){
+      setEmailERROR("email field is required");
+    }else{
+      //(email.trim() !== "" && email.match(mailformat))?setEmailERROR("invalid email format"):setEmailERROR("");
+      setEmailERROR("")
+    };
     (phone.trim() === "")?setPhoneERROR("phone field is required"):setPhoneERROR("");
     (address.trim() === "")?setAddressERROR("address field is required"):setAddressERROR("");
+    (laboratoire.trim() === "")?setLaboratoireERROR("laboratory field is required"):setAddressERROR("");
 
-    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&&address.trim() !== ""){
 
-      addNewTeacher({name,email,phone,address})
+    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&&address.trim() !== "" && laboratoire.trim() !== ""){
+
+      addNewTeacher({name,email,phone,address,laboratoire})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -58,16 +69,18 @@ const Teachers = () => {
     }
   }
 
+  // update teacher action
   const handleUpdate = (id)=>{
 
     (name.trim() === "")?setNameERROR("name field is required"):setNameERROR("");
     (email.trim() === "")?setEmailERROR("email field is required"):setEmailERROR("");
     (phone.trim() === "")?setPhoneERROR("phone field is required"):setPhoneERROR("");
     (address.trim() === "")?setAddressERROR("address field is required"):setAddressERROR("");
+    (laboratoire.trim() === "")?setLaboratoireERROR("laboratory field is required"):setAddressERROR("");
 
-    if(_id.trim() !== "" && name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&&address.trim() !== ""){
+    if(_id.trim() !== "" && name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&& address.trim() !== "" && laboratoire.trim() !== ""){
 
-      updateTeacher({"id":_id,name,email,phone,address})
+      updateTeacher({"id":_id,name,email,phone,address,laboratoire})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -81,6 +94,7 @@ const Teachers = () => {
     }
   }
 
+  // show update modal
   const showUpdateModal = (id)=>{
     setVisibleUpdate(!visibleUpdate)
     let teacher = getTeacher(id);
@@ -91,10 +105,12 @@ const Teachers = () => {
         setEmail(resp.email)
         setPhone(resp.phone)
         setAddress(resp.address)
+        setLaboratoire(resp.laboratoire)
       }
     )
   }
 
+  // delete teacher action
   const deleteTeacher = (id)=> {
 
     MySwal.fire({
@@ -118,21 +134,31 @@ const Teachers = () => {
   }
 
 
+  // costume style
+  const styles = {
+    ha_btn_font : {
+      color:"#FFF",
+      margin:"5px"
+    }
+  }
+
+
   return (<>
 
 
     <div style={{backgroundColor:"#fff",padding:"15px"}}>
 
-    <CButton color="info" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Add Teacher</CButton>
+    <CButton color="info"  onClick={() => setVisibleLg(!visibleLg)} style={styles.ha_btn_font}>Add Teacher</CButton>
 
+      {/* table of teachers */}
       <CTable bordered>
       <CTableHead>
         <CTableRow>
-          <CTableHeaderCell scope="col">#</CTableHeaderCell>
           <CTableHeaderCell scope="col">Nom</CTableHeaderCell>
           <CTableHeaderCell scope="col">Email</CTableHeaderCell>
           <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
           <CTableHeaderCell scope="col">Address</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Laboratory</CTableHeaderCell>
           <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
         </CTableRow>
       </CTableHead>
@@ -142,14 +168,14 @@ const Teachers = () => {
           teachers.map((t,index) =>{
             return (
               <CTableRow key={index}>
-                <CTableHeaderCell scope="row">{t.id}</CTableHeaderCell>
                 <CTableDataCell>{t.name}</CTableDataCell>
                 <CTableDataCell>{t.email}</CTableDataCell>
                 <CTableDataCell>{t.phone}</CTableDataCell>
                 <CTableDataCell>{t.address}</CTableDataCell>
+                <CTableDataCell>{t.laboratoire}</CTableDataCell>
                 <CTableDataCell>
-                    <CButton color="success" value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
-                    <CButton color="danger" value={t.id} onClick={(e)=> deleteTeacher(e.target.value)}>Delete</CButton>
+                    <CButton color="success" style={styles.ha_btn_font} value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
+                    <CButton color="warning" style={styles.ha_btn_font} value={t.id} onClick={(e)=> deleteTeacher(e.target.value)}>Delete</CButton>
                 </CTableDataCell>
             </CTableRow>
             )
@@ -157,6 +183,7 @@ const Teachers = () => {
         }
 
       </CTableBody>
+
     </CTable>
     </div>
 
@@ -199,6 +226,14 @@ const Teachers = () => {
         </div>
       </CToast>
       }
+      { laboratoireERROR &&
+      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
+        <div className="d-flex">
+          <CToastBody>{laboratoireERROR}</CToastBody>
+         <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+      }
 
       <CForm>
         <div className="mb-3">
@@ -227,6 +262,13 @@ const Teachers = () => {
           <CFormInput type="text" id="exampleFormControlInput1"
             value={address}
             onChange={(e)=>{ setAddress(e.target.value)}}
+          />
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Laboratoire</CFormLabel>
+          <CFormInput type="text" id="exampleFormControlInput1"
+            value={laboratoire}
+            onChange={(e)=>{ setLaboratoire(e.target.value)}}
           />
         </div>
       </CForm>
@@ -238,6 +280,7 @@ const Teachers = () => {
       </CModalBody>
     </CModal>
 
+    {/* Add Teacher Modal */}
     <CModal size="lg" visible={visibleLg} onClose={() => setVisibleLg(false)}>
       <CModalHeader>
         <CModalTitle>Add new Teacher</CModalTitle>
@@ -245,36 +288,29 @@ const Teachers = () => {
       <CModalBody>
 
       { nameERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{nameERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
+        <CAlert visible={true} color="danger">
+          {nameERROR}
+        </CAlert>
       }
       { emailERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{emailERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
+        <CAlert visible={true} color="danger">
+          {emailERROR}
+        </CAlert>
       }
       { phoneERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{phoneERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
+        <CAlert visible={true} color="danger">
+          {phoneERROR}
+        </CAlert>
       }
       { addressERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{addressERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
+        <CAlert visible={true} color="danger">
+          {addressERROR}
+        </CAlert>
+      }
+      { laboratoireERROR &&
+        <CAlert visible={true} color="danger">
+          {laboratoireERROR}
+        </CAlert>
       }
 
       <CForm>
@@ -306,6 +342,13 @@ const Teachers = () => {
             onChange={(e)=>{ setAddress(e.target.value)}}
           />
         </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Laboratoire</CFormLabel>
+          <CFormInput type="text" id="exampleFormControlInput1"
+            value={laboratoire}
+            onChange={(e)=>{ setLaboratoire(e.target.value)}}
+          />
+        </div>
       </CForm>
 
       <CButton color="success" onClick={handleAddTeacher} style={{margin:"10px"}}>Add</CButton>
@@ -314,6 +357,7 @@ const Teachers = () => {
 
       </CModalBody>
     </CModal>
+
   </>)
 }
 
