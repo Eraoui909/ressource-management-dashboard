@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RESOURCES_API_URL } from "./config";
+import { DEPARTMENT_API_URL, RESOURCES_API_URL } from "./config";
 
 
 
@@ -16,7 +16,21 @@ export const getAllOwners = async () =>{
   return Owners;
 }
 
+export const getOwnersByDepartement = async (name) =>{
+
+  let {data:Owners} = await axios.get(DEPARTMENT_API_URL+"/teachers/laboratoire/"+name)
+  return Owners;
+}
+
+export const getAllDepartements = async () =>{
+
+  let {data:Departements} = await axios.get(DEPARTMENT_API_URL+"/departments/")
+  return Departements;
+}
+
 export const addComputer = async (computer) =>{
+
+  console.log(computer)
 
   await axios.post(RESOURCES_API_URL + "/computers/add", computer).then(
     (response) =>{
