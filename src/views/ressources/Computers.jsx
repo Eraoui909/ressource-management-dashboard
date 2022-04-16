@@ -5,15 +5,18 @@ import { CButton } from '@coreui/react';
 import { CFormLabel, CFormSelect } from '@coreui/react';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { getAllDepartements, getOwnersByName, getOwnersByDepartement } from './../../services/ComputerService';
 
 const MySwal = withReactContent(Swal)
 
 
 const Computers = () => {
 
-  const [computers, setComputers]              = useState([])
+  const [computers, setComputers]             = useState([])
   const [owners, setOwners]                   = useState([])
+  const [departements, setDepartements]       = useState([])
   const [owner, setOwner]                     = useState("")
+  const [departement, setDepartement]         = useState("")
   const [visibleLg, setVisibleLg]             = useState(false)
   const [visibleUpdate, setVisibleUpdate]     = useState(false)
   const [_id, setId]                          = useState("")
@@ -22,6 +25,8 @@ const Computers = () => {
   const [providerERROR,setProviderERROR]      = useState("")
   const [CPU, setCPU]                         = useState("")
   const [CPUERROR,setCPUERROR]                = useState("")
+  const [RAM, setRAM]                         = useState("")
+  const [RAMERROR,setRAMERROR]                  = useState("")
   const [marque,setMarque]                    = useState("")
   const [marqueERROR,setMarqueERROR]          = useState("")
   const [hardDisk,setHardDisk]                = useState("")
@@ -33,6 +38,7 @@ const Computers = () => {
   const [date, setDate]                       = useState("")
   const [dateERROR, setDateERROR]             = useState("")
   const [affectedTo, setAffectedTo]           = useState("No One")
+  const [isDisabled,setIsDisabled]            = useState(true)
 
 
   useEffect( ()=>{
@@ -44,12 +50,14 @@ const Computers = () => {
       }
     )
 
-    getAllOwners().then(
+    getAllDepartements().then(
       (resp) =>{
         // console.log(resp);
-        setOwners(resp);
+        setDepartements(resp);
       }
     )
+
+
   },[])
 
   const handleAddComputer = () =>{
@@ -61,19 +69,49 @@ const Computers = () => {
     (screen.trim() === "")   ? setScreenERROR("Screen field is required")     : setScreenERROR("");
     (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
     (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
+    (RAM.trim() === "")      ? setRAMERROR("RAM field is required")           : setRAMERROR("");
 
-    if(provider.trim() !== "" && CPU.trim()!=="" && marque.trim() !== "" && hardDisk.trim() !== "" && screen.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
 
-      addComputer({
-        "provider" : provider,
-        "cpu"      : CPU,
-        "marque"   : marque,
-        "hardDisk" : hardDisk,
-        "screen"   : screen,
-        "warrantyPeriod" : warranty,
-        "date"     : date,
-        "affectedTo" : owner,
-      })
+
+    if(provider.trim() !== "" && CPU.trim()!=="" && RAM.trim()!=="" && marque.trim() !== "" && hardDisk.trim() !== "" && screen.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
+
+      if(owner !== "" && departement !== ""){
+        addComputer({
+          "provider" : provider,
+          "cpu"      : CPU,
+          "ram"      : RAM,
+          "marque"   : marque,
+          "hardDisk" : hardDisk,
+          "screen"   : screen,
+          "warrantyPeriod" : warranty,
+          "date"     : date,
+          "affectedToOwner" : owner,
+          "affectedToDepartment" : departement,
+        })
+      }else if(departement !== ""){
+          addComputer({
+            "provider" : provider,
+            "cpu"      : CPU,
+            "ram"      : RAM,
+            "marque"   : marque,
+            "hardDisk" : hardDisk,
+            "screen"   : screen,
+            "warrantyPeriod" : warranty,
+            "date"     : date,
+            "affectedToDepartment" : departement,
+          })
+      }else{
+        addComputer({
+          "provider" : provider,
+          "cpu"      : CPU,
+          "ram"      : RAM,
+          "marque"   : marque,
+          "hardDisk" : hardDisk,
+          "screen"   : screen,
+          "warrantyPeriod" : warranty,
+          "date"     : date,
+        })
+      }
 
       Swal.fire({
         position: 'top-end',
@@ -101,6 +139,8 @@ const Computers = () => {
     (screen.trim() === "")   ? setScreenERROR("Screen field is required")     : setScreenERROR("");
     (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
     (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
+    (RAM.trim() === "")      ? setRAMERROR("RAM field is required")           : setRAMERROR("");
+
 
     if(provider.trim() !== "" && CPU.trim()!=="" && marque.trim() !== "" && hardDisk.trim() !== "" && screen.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
 
@@ -148,6 +188,7 @@ const Computers = () => {
         setScreen(resp.screen)
         setWarranty(resp.warrantyPeriod)
         setDate(resp.date)
+        setRAM(resp.RAM)
         owners.forEach((item, index)=>{
           if(resp.affectedTo && resp.affectedTo.name === item.name){
             setAffectedTo(index);
@@ -186,6 +227,22 @@ const Computers = () => {
     })
   }
 
+  const departementSelected = (dep) =>{
+    setDepartement(dep)
+    if(dep.trim() != ""){
+      setIsDisabled(false)
+      getOwnersByDepartement(dep).then(
+        (resp) =>{
+          // console.log(resp);
+          setOwners(resp);
+        }
+      )
+    }else{
+      setIsDisabled(true)
+      setOwner("");
+    }
+  }
+
 
   return (<>
 
@@ -196,15 +253,16 @@ const Computers = () => {
       <CTable bordered>
       <CTableHead>
         <CTableRow>
-          <CTableHeaderCell scope="col">#</CTableHeaderCell>
           <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
           <CTableHeaderCell scope="col">CPU</CTableHeaderCell>
+          <CTableHeaderCell scope="col">RAM</CTableHeaderCell>
           <CTableHeaderCell scope="col">Marque</CTableHeaderCell>
           <CTableHeaderCell scope="col">Hard Disk</CTableHeaderCell>
           <CTableHeaderCell scope="col">Screen</CTableHeaderCell>
           <CTableHeaderCell scope="col">Warranty</CTableHeaderCell>
           <CTableHeaderCell scope="col">Date</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Affected To</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Affected To Department</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Affected To Owner</CTableHeaderCell>
         </CTableRow>
       </CTableHead>
       <CTableBody>
@@ -213,15 +271,16 @@ const Computers = () => {
           computers.map((t,index) =>{
             return (
               <CTableRow key={index}>
-                <CTableHeaderCell scope="row">{t.id}</CTableHeaderCell>
                 <CTableDataCell>{t.provider}</CTableDataCell>
                 <CTableDataCell>{t.cpu}</CTableDataCell>
+                <CTableDataCell>{t.ram}</CTableDataCell>
                 <CTableDataCell>{t.marque}</CTableDataCell>
                 <CTableDataCell>{t.hardDisk}</CTableDataCell>
                 <CTableDataCell>{t.screen}</CTableDataCell>
                 <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
                 <CTableDataCell>{t.date}</CTableDataCell>
-                <CTableDataCell>{t.affectedTo ? t.affectedTo.name : "No One"}</CTableDataCell>
+                <CTableDataCell>{t.affectedToDepartment ? t.affectedToDepartment : "No One"}</CTableDataCell>
+                <CTableDataCell>{t.affectedToOwner ? t.affectedToOwner.name : "No One"}</CTableDataCell>
                 <CTableDataCell>
                     <CButton color="success" value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
                     <CButton color="danger" value={t.id} onClick={(e)=> deleteComp(e.target.value)}>Delete</CButton>
@@ -254,6 +313,14 @@ const Computers = () => {
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
           <CToastBody>{CPUERROR}</CToastBody>
+         <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+      }
+      { RAMERROR  &&
+      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
+        <div className="d-flex">
+          <CToastBody>{RAMERROR}</CToastBody>
          <CToastClose className="me-2 m-auto" white />
         </div>
       </CToast>
@@ -315,6 +382,13 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">RAM</CFormLabel>
+          <CFormInput type="text" id="exampleFormControlInput1"
+            value={RAM}
+            onChange={(e)=>{ setCPU(e.target.value)}}
+          />
+        </div>
+        <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Marque</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
             value={marque}
@@ -350,7 +424,7 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormSelect aria-label="Default select example" 
+          <CFormSelect aria-label="Default select example"
             onChange={e => {setOwner(owners[e.target.value]); setAffectedTo(e.target.value);}}
             value={affectedTo}
           >
@@ -395,6 +469,14 @@ const Computers = () => {
         </div>
       </CToast>
       }
+      { RAMERROR &&
+      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
+        <div className="d-flex">
+          <CToastBody>{RAMERROR}</CToastBody>
+         <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+      }
       { marqueERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
@@ -452,6 +534,13 @@ const Computers = () => {
           />
         </div>
         <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">RAM</CFormLabel>
+          <CFormInput type="text" id="exampleFormControlInput1"
+            value={RAM}
+            onChange={(e)=>{ setRAM(e.target.value)}}
+          />
+        </div>
+        <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Marque</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
             value={marque}
@@ -472,7 +561,12 @@ const Computers = () => {
             onChange={(e)=>{ setScreen(e.target.value)}}
           />
         </div>
-        <div className="mb-3">
+
+        <div className="mb-3" style={{border:"1px solid",padding:"15px"}}>
+
+          <h4>Affectation</h4>
+
+          <div className="mb-2">
           <CFormLabel htmlFor="exampleFormControlInput1">Warranty Period</CFormLabel>
           <CFormInput type="text" id="exampleFormControlInput1"
             value={warranty}
@@ -481,14 +575,32 @@ const Computers = () => {
         </div>
         <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Date</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
+          <CFormInput type="date" id="exampleFormControlInput1"
             value={date}
             onChange={(e)=>{ setDate(e.target.value)}}
           />
         </div>
         <div className="mb-3">
+        <CFormLabel htmlFor="exampleFormControlInput1">Affected to</CFormLabel>
+        <tr />
+        <CFormLabel htmlFor="exampleFormControlInput1">Departement</CFormLabel>
+        <CFormSelect aria-label="Default select example"
+            onChange={e => {departementSelected(e.target.value)}}
+          >
+            <option value="">No One</option>
+            {
+              departements.map((t,index) =>{
+                return (
+                  <option value={t.name} key={index}>{t.name}</option>
+                )
+              })
+            }
+          </CFormSelect>
+          <tr />
+          <CFormLabel htmlFor="exampleFormControlInput1">Member</CFormLabel>
           <CFormSelect aria-label="Default select example"
             onChange={e => {setOwner(owners[e.target.value])}}
+            disabled={isDisabled}
           >
             <option value="">No One</option>
             {
@@ -500,6 +612,9 @@ const Computers = () => {
             }
           </CFormSelect>
         </div>
+
+        </div>
+
       </CForm>
 
       <CButton color="success" onClick={handleAddComputer} style={{margin:"10px"}}>Add</CButton>
