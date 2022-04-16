@@ -1,6 +1,7 @@
 import { CForm, CFormInput, CCardHeader, CCard, CCardImage, CCardText, CCardBody, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose } from '@coreui/react';
 import React, { useEffect, useState } from 'react';
 import { updateProfile } from 'src/services/ProfileService';
+import { getDepartments } from 'src/services/DepartmentsService';
 import { CButton } from '@coreui/react';
 import { CFormLabel, CFormSelect } from '@coreui/react';
 import Swal from 'sweetalert2'
@@ -22,6 +23,9 @@ const Profile = () => {
   const [PhoneERROR,setPhoneERROR]      = useState("")
   const [Address, setAddress]                   = useState("")
   const [AddressERROR, setAddressERROR]         = useState("")
+  const [Departements, setDepartements]                   = useState([])
+  const [Dep, setDep]                   = useState("")
+  const [DepERROR, setDepERROR]         = useState("")
 
 
   useEffect( ()=>{
@@ -31,6 +35,14 @@ const Profile = () => {
     setEmail(user.email);
     if(user.phone)  setPhone(user.phone);
     if(user.address)  setAddress(user.address);
+    if(user.laboratory)  setDep(user.address);
+
+    getDepartments().then(
+      (resp) =>{
+        // console.log(resp);
+        setDepartements(resp);
+      }
+    )
 
   },[])
 
@@ -39,8 +51,9 @@ const Profile = () => {
     (Email.trim() === "") ? setEmailERROR("Email field is required") : setEmailERROR("");
     (Phone.trim() === "") ? setPhoneERROR("Phone field is required") : setPhoneERROR("");
     (Address.trim() === "") ? setAddressERROR("Address field is required") : setAddressERROR("");
+    (Dep.trim() === "") ? setDepERROR("Dep field is required") : setDepERROR("");
 
-    if(name.trim() !== "" && Email.trim() !== "" && Phone.trim() !== "" && Address.trim() !== ""){
+    if(name.trim() !== "" && Email.trim() !== "" && Phone.trim() !== "" && Address.trim() !== "" && Dep.trim() !== ""){
 
       var user = JSON.parse(localStorage.getItem("user"));
       updateProfile({
@@ -48,13 +61,15 @@ const Profile = () => {
         "name" : name,
         "email" : Email,
         "phone" : Phone,
-        "address" : Address
+        "address" : Address,
+        "laboratory" : Dep,
       })
 
       user.name = name;
       user.email = Email;
       user.phone = Phone;
       user.address = Address;
+      user.laboratory = Dep;
 
       localStorage.setItem("user", JSON.stringify(user));
 
@@ -133,6 +148,22 @@ const Profile = () => {
                 value={Address}
                 onChange={(e)=>{ setAddress(e.target.value)}}
             />
+            </div>
+            <div className="mb-3">
+              <CFormLabel htmlFor="exampleFormControlInput1">Departement</CFormLabel>
+              <CFormSelect aria-label="Default select example"
+                value={Dep}
+                onChange={e => {setDep(e.target.value)}}
+              >
+                <option selected disabled value="">Select Departement</option>
+                {
+                  Departements.map((t,index) =>{
+                    return (
+                      <option value={t.name} key={index}>{t.name}</option>
+                    )
+                  })
+                }
+              </CFormSelect>
             </div>
         </CForm>
         <CButton color="info" variant="outline"  onClick={updateProf} style={{margin:"10px"}}>Update</CButton>
