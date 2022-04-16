@@ -3,6 +3,7 @@ import React from 'react'
 // Departement
 const Teachers = React.lazy(() => import('./views/departement/Teachers'))
 const Departments = React.lazy(() => import('./views/departement/Departments'))
+const Profile = React.lazy(() => import('./views/Users/Profile'))
 
 const Computers = React.lazy(() => import('./views/ressources/Computers'))
 
@@ -62,6 +63,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/profile', name: 'Teachers', element: Profile },
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/departement/departments', name: 'Department', element: Departments },
   { path: '/resources/computers', name: 'Computers', element: Computers },
