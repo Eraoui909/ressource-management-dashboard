@@ -188,14 +188,15 @@ const Printers = () => {
       <CTable bordered>
       <CTableHead>
         <CTableRow>
-          <CTableHeaderCell scope="col">#</CTableHeaderCell>
           <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
           <CTableHeaderCell scope="col">Marque</CTableHeaderCell>
           <CTableHeaderCell scope="col">Speed</CTableHeaderCell>
           <CTableHeaderCell scope="col">Resolution</CTableHeaderCell>
           <CTableHeaderCell scope="col">Warranty</CTableHeaderCell>
           <CTableHeaderCell scope="col">Date</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Affected To</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Affected To Department</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Affected To Owner</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Action</CTableHeaderCell>
         </CTableRow>
       </CTableHead>
       <CTableBody>
@@ -204,14 +205,14 @@ const Printers = () => {
           printers.map((t,index) =>{
             return (
               <CTableRow key={index}>
-                <CTableHeaderCell scope="row">{t.id}</CTableHeaderCell>
                 <CTableDataCell>{t.provider}</CTableDataCell>
                 <CTableDataCell>{t.marque}</CTableDataCell>
                 <CTableDataCell>{t.speed}</CTableDataCell>
                 <CTableDataCell>{t.resolution}</CTableDataCell>
                 <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
                 <CTableDataCell>{t.date}</CTableDataCell>
-                <CTableDataCell>{t.affectedTo ? t.affectedTo.name : "No One"}</CTableDataCell>
+                <CTableDataCell>{t.affectedToDepartment ? t.affectedToDepartment : "No One"}</CTableDataCell>
+                <CTableDataCell>{t.affectedToOwner ? t.affectedToOwner.name : "No One"}</CTableDataCell>
                 <CTableDataCell>
                     <CButton color="success" value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
                     <CButton color="danger" value={t.id} onClick={(e)=> deletePrint(e.target.value)}>Delete</CButton>
@@ -325,7 +326,7 @@ const Printers = () => {
           />
         </div>
         <div className="mb-3">
-          <CFormSelect aria-label="Default select example" 
+          <CFormSelect aria-label="Default select example"
             onChange={e => {setOwner(owners[e.target.value]); setAffectedTo(e.target.value);}}
             value={affectedTo}
           >
