@@ -14,6 +14,8 @@ const Printers = () => {
   const [printers, setPrinters]               = useState([])
   const [owners, setOwners]                   = useState([])
   const [owner, setOwner]                     = useState("")
+  const [departements, setDepartements]       = useState([])
+  const [departement, setDepartement]         = useState("")
   const [visibleLg, setVisibleLg]             = useState(false)
   const [visibleUpdate, setVisibleUpdate]     = useState(false)
   const [_id, setId]                          = useState("")
@@ -44,10 +46,16 @@ const Printers = () => {
     getAllOwners().then(
       (resp) =>{
         // console.log(resp);
-        setOwners(resp);
+        setDepartements(resp);
       }
     )
   },[])
+
+  const changeDepartement = e => {
+
+    setOwner(owners[e.target.value]);
+    console.log(owners[e.target.value]);
+  }
 
   const handleAddPrinter = () =>{
 
@@ -448,8 +456,24 @@ const Printers = () => {
           />
         </div>
         <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Select Departement :</CFormLabel>
           <CFormSelect aria-label="Default select example"
-            onChange={e => {setOwner(owners[e.target.value])}}
+            onChange={changeDepartement}
+          >
+            <option value="">No One</option>
+            {
+              owners.map((t,index) =>{
+                return (
+                  <option value={index} key={index}>{t.name}</option>
+                )
+              })
+            }
+          </CFormSelect>
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Select Person :</CFormLabel>
+          <CFormSelect aria-label="Default select example"
+            onChange={changeDepartement}
           >
             <option value="">No One</option>
             {

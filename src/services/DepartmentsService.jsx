@@ -5,9 +5,9 @@ import { DEPARTMENT_API_URL } from "./config";
 
 export const getDepartments = async () =>{
 
-    let {data:teachers} = await axios.get(DEPARTMENT_API_URL+"/departments/")
+    let {data:departements} = await axios.get(DEPARTMENT_API_URL+"/departments/")
 
-    return teachers;
+    return departements;
 }
 
 export const addNewDepartment = async (department)=>{
