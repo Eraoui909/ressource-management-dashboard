@@ -1,3 +1,4 @@
+import { element } from 'prop-types'
 import React from 'react'
 
 // Departement
@@ -66,7 +67,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/profile', name: 'Teachers', element: Profile },
+  { path: '/profile', name: 'Profile', element: Profile},
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/chefDepartement/teachers', name: 'ChefDep', element: ChefDep },
   { path: '/departement/departments', name: 'Department', element: Departments },

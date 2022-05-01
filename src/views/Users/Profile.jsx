@@ -13,8 +13,8 @@ const MySwal = withReactContent(Swal)
 
 
 const Profile = () => {
-  
-  const [id, setId]               = useState("")  
+
+  const [id, setId]               = useState("")
   const [name, setName]               = useState("")
   const [nameERROR,setNameERROR]      = useState("")
   const [Email,setEmail]                    = useState("")
@@ -31,7 +31,7 @@ const Profile = () => {
   useEffect( ()=>{
     var user = JSON.parse(localStorage.getItem("user"));
     setId(user.id);
-    setName(user.name);
+    setName(user.username);
     setEmail(user.email);
     if(user.phone)  setPhone(user.phone);
     if(user.address)  setAddress(user.address);
@@ -111,7 +111,7 @@ const Profile = () => {
             <CToastClose className="me-2 m-auto" white />
             </div>
           </CToast>
-        } 
+        }
         { AddressERROR &&
           <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
             <div className="d-flex">
@@ -182,7 +182,7 @@ const Profile = () => {
         </CCard>
         </div>
     </div>
-    
+
 
   </>)
 }
