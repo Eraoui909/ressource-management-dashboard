@@ -35,7 +35,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    roles: ["ROLE_CHEF_RESSOURCES"],
+    roles: ["ROLE_CHEF_RESOURCES"],
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [ 

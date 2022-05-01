@@ -65,7 +65,7 @@ export const AppSidebarNav = ({ items }) => {
           var test = false
           roles.forEach(element => {
             
-            if((!item.roles || item.roles.includes(element.name))) 
+            if((!item.roles || item.roles.includes(element))) 
             {
               test = true
             }
