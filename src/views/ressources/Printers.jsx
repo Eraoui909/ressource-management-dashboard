@@ -57,43 +57,43 @@ const Printers = () => {
     console.log(owners[e.target.value]);
   }
 
-  const handleAddPrinter = () =>{
+  // const handleAddPrinter = () =>{
 
-    (provider.trim() === "") ? setProviderERROR("provider field is required") : setProviderERROR("");
-    (marque.trim() === "")   ? setMarqueERROR("Marque field is required")     : setMarqueERROR("");
-    (speed.trim() === "") ? setSpeedERROR("Speed field is required") : setSpeedERROR("");
-    (resolution.trim() === "")   ? setResolutionERROR("Resolution field is required")     : setResolutionERROR("");
-    (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
-    (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
+  //   (provider.trim() === "") ? setProviderERROR("provider field is required") : setProviderERROR("");
+  //   (marque.trim() === "")   ? setMarqueERROR("Marque field is required")     : setMarqueERROR("");
+  //   (speed.trim() === "") ? setSpeedERROR("Speed field is required") : setSpeedERROR("");
+  //   (resolution.trim() === "")   ? setResolutionERROR("Resolution field is required")     : setResolutionERROR("");
+  //   (warranty.trim() === "") ? setWarrantyERROR("Warranty field is required") : setWarrantyERROR("");
+  //   (date.trim() === "")     ? setDateERROR("Date field is required")         : setDateERROR("");
 
-    if(provider.trim() !== "" && marque.trim() !== "" && speed.trim() !== "" && resolution.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
+  //   if(provider.trim() !== "" && marque.trim() !== "" && speed.trim() !== "" && resolution.trim() !== "" && warranty.trim() !== "" && date.trim() !== ""){
 
-      addPrinter({
-        "provider" : provider,
-        "marque"   : marque,
-        "speed" : speed,
-        "resolution"   : resolution,
-        "warrantyPeriod" : warranty,
-        "date"     : date,
-        "affectedTo" : owner,
-      })
+  //     addPrinter({
+  //       "provider" : provider,
+  //       "marque"   : marque,
+  //       "speed" : speed,
+  //       "resolution"   : resolution,
+  //       "warrantyPeriod" : warranty,
+  //       "date"     : date,
+  //       "affectedTo" : owner,
+  //     })
 
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Printer added with success',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      getAll().then(
-        (resp) =>{
-          // console.log(resp);
-          setPrinters(resp);
-        }
-      )
-      setVisibleLg(!visibleLg)
-    }
-  }
+  //     Swal.fire({
+  //       position: 'top-end',
+  //       icon: 'success',
+  //       title: 'Printer added with success',
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     })
+  //     getAll().then(
+  //       (resp) =>{
+  //         // console.log(resp);
+  //         setPrinters(resp);
+  //       }
+  //     )
+  //     setVisibleLg(!visibleLg)
+  //   }
+  // }
 
   const handleUpdate = (id)=>{
 
@@ -191,7 +191,7 @@ const Printers = () => {
 
 
     <div style={{backgroundColor:"#fff",padding:"15px"}}>
-      <CButton color="info" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Add Printer</CButton>
+      {/* <CButton color="info" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Add Printer</CButton> */}
 
       <CTable bordered>
       <CTableHead>
@@ -352,143 +352,6 @@ const Printers = () => {
 
       <CButton color="success"  onClick={handleUpdate} style={{margin:"10px"}}>Update</CButton>
       <CButton color="danger" onClick={() => setVisibleUpdate(!visibleUpdate)} style={{margin:"10px"}}>Cancel</CButton>
-
-
-      </CModalBody>
-    </CModal>
-
-    <CModal size="lg" visible={visibleLg} onClose={() => setVisibleLg(false)}>
-      <CModalHeader>
-        <CModalTitle>Add new Printer</CModalTitle>
-      </CModalHeader>
-      <CModalBody>
-
-      { providerERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{providerERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { marqueERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{marqueERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { speedERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{speedERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { resolutionERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{resolutionERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { warrantyERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{warrantyERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-      { dateERROR &&
-      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
-        <div className="d-flex">
-          <CToastBody>{dateERROR}</CToastBody>
-         <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-      }
-
-      <CForm>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Provider</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={provider}
-            onChange={(e)=>{ setProvider(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Marque</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={marque}
-            onChange={(e)=>{ setMarque(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Speed</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={speed}
-            onChange={(e)=>{ setSpeed(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Resolution</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={resolution}
-            onChange={(e)=>{ setResolution(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Warranty Period</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={warranty}
-            onChange={(e)=>{ setWarranty(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Date</CFormLabel>
-          <CFormInput type="text" id="exampleFormControlInput1"
-            value={date}
-            onChange={(e)=>{ setDate(e.target.value)}}
-          />
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Select Departement :</CFormLabel>
-          <CFormSelect aria-label="Default select example"
-            onChange={changeDepartement}
-          >
-            <option value="">No One</option>
-            {
-              owners.map((t,index) =>{
-                return (
-                  <option value={index} key={index}>{t.name}</option>
-                )
-              })
-            }
-          </CFormSelect>
-        </div>
-        <div className="mb-3">
-          <CFormLabel htmlFor="exampleFormControlInput1">Select Person :</CFormLabel>
-          <CFormSelect aria-label="Default select example"
-            onChange={changeDepartement}
-          >
-            <option value="">No One</option>
-            {
-              owners.map((t,index) =>{
-                return (
-                  <option value={index} key={index}>{t.name}</option>
-                )
-              })
-            }
-          </CFormSelect>
-        </div>
-      </CForm>
-
-      <CButton color="success" onClick={handleAddPrinter} style={{margin:"10px"}}>Add</CButton>
-      <CButton color="danger" onClick={() => setVisibleLg(!visibleLg)} style={{margin:"10px"}}>Cancel</CButton>
 
 
       </CModalBody>

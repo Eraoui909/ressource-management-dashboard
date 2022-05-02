@@ -37,7 +37,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [ 
+    items: [
       {
         component: CNavItem,
         name: 'Computers',
@@ -48,6 +48,12 @@ const _nav = [
         component: CNavItem,
         name: 'Printers',
         to: '/resources/printers',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'ADD-Resources',
+        to: '/resources/',
         icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
       },
     ],
