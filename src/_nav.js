@@ -37,7 +37,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [ 
+    items: [
       {
         component: CNavItem,
         name: 'Computers',
@@ -78,14 +78,14 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Teachers',
-    to: '/departement/teachers',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+      name: 'ChefDep',
+      to: '/chefDepartement/teachers',
+      icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'ChefDep',
-    to: '/chefDepartement/teachers',
+    name: 'My Ressources',
+    to: '/my-resources',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
