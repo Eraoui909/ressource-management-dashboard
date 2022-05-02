@@ -35,6 +35,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
+    roles: ["ROLE_CHEF_RESOURCES"],
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
@@ -61,6 +62,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Departement',
+    roles: ["ROLE_CHEF_DEP", "ROLE_ADMIN"],
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
@@ -85,12 +87,14 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Teachers',
+    roles: ["ROLE_ADMIN"],
     to: '/departement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'ChefDep',
+    roles: ["ROLE_CHEF_DEP"],
     to: '/chefDepartement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
