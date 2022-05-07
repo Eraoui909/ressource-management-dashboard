@@ -54,7 +54,13 @@ export const AppSidebarNav = ({ items }) => {
       </Component>
     )
   }
-  var roles = JSON.parse(localStorage.getItem("user")).roles
+  var roles = [""]
+  try {
+    roles = JSON.parse(localStorage.getItem("user")).roles
+  } catch (error) {
+    
+  }
+  
   // console.log(roles)
   return (
     <React.Fragment>
