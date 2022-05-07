@@ -10,7 +10,7 @@ const Administrative = React.lazy(() => import('./views/departement/Administrati
 const ChefDep = React.lazy(() => import('./views/chefDep/ChefDep'))
 
 const Computers = React.lazy(() => import('./views/ressources/Computers'))
-
+const Resources = React.lazy(() => import('./views/ressources/Ressources'))
 const Printers = React.lazy(() => import('./views/ressources/Printers'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
@@ -74,6 +74,7 @@ const routes = [
   { path: '/departement/administrative' , name: 'Administrative' , element: Administrative},
   { path: '/resources/computers', name: 'Computers', element: Computers },
   { path: '/resources/printers', name: 'Computers', element: Printers },
+  { path: '/resources/', name: 'Resources', element: Resources },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
