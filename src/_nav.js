@@ -51,6 +51,12 @@ const _nav = [
         to: '/resources/printers',
         icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
       },
+      {
+        component: CNavItem,
+        name: 'ADD-Resources',
+        to: '/resources/',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      },
     ],
   },
   {
