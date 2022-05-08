@@ -1,6 +1,6 @@
 import axios from "axios";
 import { string } from "prop-types";
-import { RESOURCES_API_URL } from "./config";
+import { OLD_TEACHER_API_URL, RESOURCES_API_URL, TEACHER_API_URL } from "./config";
 
 
 export const getResourcesForCurrentTeacher = async () =>{
@@ -11,4 +11,19 @@ export const getResourcesForCurrentTeacher = async () =>{
 
 
   return resources;
+}
+
+export const declarerUnePanne = async (panne) =>{
+
+
+  await axios.post(OLD_TEACHER_API_URL+"/teachers/signalerPanne",panne).then(
+    (response) =>{
+      console.log(response)
+      return response;
+    }
+  ).catch(
+    (error) =>{
+      return error;
+    }
+  )
 }

@@ -4,7 +4,7 @@ import { CButton } from '@coreui/react';
 import { CFormLabel } from '@coreui/react';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { getResourcesForCurrentTeacher } from './../../services/MyRessourcesService';
+import { getResourcesForCurrentTeacher, declarerUnePanne } from './../../services/MyRessourcesService';
 
 const MySwal = withReactContent(Swal)
 
@@ -14,11 +14,20 @@ const MyRessources = () => {
   const [ressources,setRessources] = useState([])
   const [visibleLgPanneModal, setVisibleLgPanneModal] = useState(false)
 
+  const [dateAppartition, setDateAppartition] = useState("")
+  const [explicationPanne, setExplicationPanne] = useState("")
+  const [frequencePanne, setFrequencePanne] = useState("")
+  const [ordrePanne, setOrdrePanne] = useState("")
+
+
+
+
 
   useEffect( ()=>{
 
     getResourcesForCurrentTeacher().then(
         (resp) =>{
+          console.log(resp)
           setRessources(resp);
         }
       )
@@ -27,7 +36,18 @@ const MyRessources = () => {
 
 
 
+  const signalerPanne = () =>{
 
+    let username = JSON.parse(localStorage.getItem("user")).username;
+
+    declarerUnePanne({
+        dateAppartition,
+        explicationPanne,
+        frequencePanne,
+        ordrePanne,
+        declaredBy:username
+    })
+  }
 
 
   return (<>
@@ -70,7 +90,7 @@ const MyRessources = () => {
 
   <CModal size="lg" visible={visibleLgPanneModal} onClose={() => setVisibleLgPanneModal(false)}>
       <CModalHeader>
-        <CModalTitle>Large modal</CModalTitle>
+        <CModalTitle>Declarer Une Panne</CModalTitle>
       </CModalHeader>
       <CModalBody>
 
@@ -78,18 +98,20 @@ const MyRessources = () => {
 
         <CFormLabel >date d’apparition</CFormLabel>
           <CInputGroup className="mb-3">
-            <CFormInput type='date' />
+            <CFormInput type='date' onChange={ (e)=> setDateAppartition(e.target.value)} />
         </CInputGroup>
 
         <CFormLabel > explication de la panne</CFormLabel>
           <CInputGroup className="mb-3">
-            <CFormTextarea ></CFormTextarea>
+            <CFormTextarea onChange={ (e)=> setExplicationPanne(e.target.value)} ></CFormTextarea>
         </CInputGroup>
 
         <CFormLabel >fréquence</CFormLabel>
         <CInputGroup className="mb-3">
-            <CFormSelect  >
-              <option value="rare">rare</option>
+
+            <CFormSelect onChange={ (e)=> setFrequencePanne(e.target.value)} >
+              <option value="" ></option>
+              <option value="rare" >rare</option>
               <option value="fréquente ">fréquente</option>
               <option value="permanente">permanente</option>
             </CFormSelect>
@@ -97,13 +119,15 @@ const MyRessources = () => {
 
         <CFormLabel >ordre de panne</CFormLabel>
         <CInputGroup className="mb-3">
-            <CFormSelect  >
+
+            <CFormSelect onChange={ (e)=> setOrdrePanne(e.target.value)} >
+              <option value="" ></option>
               <option value="logiciel">logiciel</option>
               <option value="materiel ">materiel</option>
             </CFormSelect>
         </CInputGroup>
 
-        <CButton className='btn btn-warning' >signaler</CButton>
+        <CButton className='btn btn-warning' onClick={signalerPanne} >signaler</CButton>
 
       </CForm>
 
