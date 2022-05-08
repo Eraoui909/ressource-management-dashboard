@@ -18,7 +18,7 @@ export const getAllOwners = async () =>{
 
 export const getOwnersByDepartement = async (name) =>{
 
-  let {data:Owners} = await axios.get(DEPARTMENT_API_URL+"/teachers/laboratoire/"+name)
+  let {data:Owners} = await axios.get(DEPARTMENT_API_URL+"/teachers/department/"+name)
   return Owners;
 }
 

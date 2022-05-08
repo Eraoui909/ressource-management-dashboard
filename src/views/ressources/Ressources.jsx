@@ -5,6 +5,8 @@ import { CFormLabel, CFormSelect } from '@coreui/react';
 import Swal from 'sweetalert2'
 import { getOwnersByDepartement,addComputer } from './../../services/ComputerService';
 import { addPrinter } from 'src/services/PrinterService';
+import { getAllDepartements } from './../../services/ComputerService';
+
 
 
 
@@ -37,6 +39,20 @@ const Ressources = () => {
   const [isDisabled,setIsDisabled]            = useState(true)
   const [isComputerForm,setIsComputerForm]    = useState(false)
   const [isPrinterForm,setIsPrinterForm]      = useState(false)
+
+  useEffect( ()=>{
+
+
+
+    getAllDepartements().then(
+      (resp) =>{
+        // console.log(resp);
+        setDepartements(resp);
+      }
+    )
+
+
+  },[])
 
   const handleAddComputer = () =>{
 
@@ -391,7 +407,7 @@ const Ressources = () => {
               {
                 owners.map((t,index) =>{
                   return (
-                    <option value={index} key={index}>{t.name}</option>
+                    <option value={index} key={index}>{t.username}</option>
                   )
                 })
               }
