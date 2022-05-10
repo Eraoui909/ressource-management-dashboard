@@ -57,12 +57,12 @@ const MyRessources = () => {
     let username = JSON.parse(localStorage.getItem('user')).username
 
     declarerUnePanne({
-      "id":id,
-      "dateAppartition":dateAppartition,
-      "explicationPanne":explicationPanne,
-      "frequencePanne":frequencePanne,
-      "ordrePanne":ordrePanne,
-      "declaredBy": username,
+      id: id,
+      dateAppartition: dateAppartition,
+      explicationPanne: explicationPanne,
+      frequencePanne: frequencePanne,
+      ordrePanne: ordrePanne,
+      declaredBy: username,
     })
   }
 
@@ -209,15 +209,14 @@ const MyRessources = () => {
 
                     <CFormLabel className="col-5 m-1">{ordrePanne}</CFormLabel>
                   </CInputGroup>
-                  {
-                    console.log(Etats)                 }
-                  
+                  {console.log(Etats)}
+
                   <CInputGroup className="mb-3">
                     <CFormLabel className="col-5 m-1">Etats</CFormLabel>
                     <CFormLabel className="col-1 m-1">:</CFormLabel>
                     <CFormLabel className="col-5 m-1 text-warning">{Etats}</CFormLabel>
                   </CInputGroup>
-                  
+
                   <CInputGroup className="mb-3">
                     <CFormLabel className="col-9 m-1"></CFormLabel>
                     <CButton className="btn btn-lg" onClick={() => setVisibleLgPanneModal1(false)}>

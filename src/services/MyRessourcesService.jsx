@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { string } from 'prop-types'
-import { OLD_TEACHER_API_URL, RESOURCES_API_URL, TEACHER_API_URL } from './config'
+import { RESOURCES_API_URL } from './config'
 
 export const getResourcesForCurrentTeacher = async () => {
-  let username = JSON.parse(localStorage.getItem('user'))
+  let user = JSON.parse(localStorage.getItem('user'))
+
   let { data: resources } = await axios.get(
-    RESOURCES_API_URL + '/resources/username/' + username.username,
+    RESOURCES_API_URL + '/resources/username/' + user.username,
   )
 
   return resources

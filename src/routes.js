@@ -1,4 +1,3 @@
-import { element } from 'prop-types'
 import React from 'react'
 
 // Departement

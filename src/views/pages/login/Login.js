@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {login} from '../../../services/AuthService'
+import { login } from '../../../services/AuthService'
 import {
   CButton,
   CCard,
@@ -16,71 +16,62 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-import {checkRoles,authentified} from "../../../protectedRoutes/checkRoles"
+import { checkRoles, authentified } from '../../../protectedRoutes/checkRoles'
 
 const Login = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  const [username,setUsername] = useState("");
-  const [password,setPassword] = useState("");
+  const [errorUsername, seterrorUsername] = useState('')
+  const [errorPassword, seterrorPassword] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const [errorUsername, seterrorUsername] = useState("");
-  const [errorPassword, seterrorPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const navigate = useNavigate()
 
-  const navigate = useNavigate();
-
-
-  useEffect(()=>{
-      if(authentified()){
-        let check = checkRoles(["ROLE_ADMIN","ROLE_PROF","ROLE_CHEF_DEP","ROLE_CHEF_RESOURCES"]);
-        navigate("../", { replace: true });
-      }
-  });
-
-
-  const handleSubmit = async e =>{
-    e.preventDefault();
-
-
-    if(username.trim().length === 0 || password.trim().length === 0){
-      if(username.trim().length === 0){
-        seterrorUsername("username is required");
-      }else{
-        seterrorUsername("");
-      }
-      if(password.trim().length === 0){
-        seterrorPassword("password is required");
-      }else{
-        seterrorPassword("");
-      }
-    }else{
-
-      try{
-
-        let jwt = await login(username,password);
-
-        setSuccess("Welcom again");
-        setError("");
-        setTimeout(function () {
-          window.location = "/";
-        },500);
-      }catch(exception){
-        setError("Email or password incorrect");
-        setSuccess("");
-        console.log(error);
-      };
+  useEffect(() => {
+    if (authentified()) {
+      let check = checkRoles(['ROLE_ADMIN', 'ROLE_PROF', 'ROLE_CHEF_DEP', 'ROLE_CHEF_RESOURCES'])
+      navigate('../', { replace: true })
     }
+  })
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (username.trim().length === 0 || password.trim().length === 0) {
+      if (username.trim().length === 0) {
+        seterrorUsername('username is required')
+      } else {
+        seterrorUsername('')
+      }
+      if (password.trim().length === 0) {
+        seterrorPassword('password is required')
+      } else {
+        seterrorPassword('')
+      }
+    } else {
+      try {
+        let jwt = await login(username, password)
+
+        setSuccess('Welcom again')
+        setError('')
+        setTimeout(function () {
+          window.location = '/'
+        }, 500)
+      } catch (exception) {
+        setError('Email or password incorrect')
+        setSuccess('')
+        console.log(error)
+      }
+    }
   }
 
   const styles = {
-
-    ha_error_msg:{
-      color: "red"
-    }
+    ha_error_msg: {
+      color: 'red',
+    },
   }
-
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -90,8 +81,8 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  { error && <div className="alert alert-danger">{error}</div>}
-                  { success && <div className="alert alert-success">{success}</div>}
+                  {error && <div className="alert alert-danger">{error}</div>}
+                  {success && <div className="alert alert-success">{success}</div>}
                   <CForm>
                     <h1>Login </h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
@@ -160,4 +151,3 @@ const Login = () => {
 }
 
 export default Login
-
