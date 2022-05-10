@@ -2,7 +2,6 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import CPrinter from '@coreui/icons-react'
 
-
 import {
   cilBell,
   cilCalculator,
@@ -16,7 +15,7 @@ import {
   cilStar,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
-import Teachers from './views/departement/Teachers';
+import Teachers from './views/departement/Teachers'
 
 const _nav = [
   {
@@ -35,7 +34,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    roles: ["ROLE_CHEF_RESOURCES"],
+    roles: ['ROLE_CHEF_RESOURCES'],
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
@@ -62,7 +61,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Departement',
-    roles: ["ROLE_CHEF_DEP", "ROLE_ADMIN"],
+    roles: ['ROLE_CHEF_DEP', 'ROLE_ADMIN'],
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
@@ -80,22 +79,19 @@ const _nav = [
         name: 'Administrative',
         to: '/departement/administrative',
       },
-
-
     ],
   },
   {
     component: CNavItem,
-    to: '/my-resources',
     name: 'Teachers',
-    roles: ["ROLE_ADMIN"],
+    roles: ['ROLE_ADMIN'],
     to: '/departement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'ChefDep',
-    roles: ["ROLE_CHEF_DEP"],
+    roles: ['ROLE_CHEF_DEP'],
     to: '/chefDepartement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
@@ -103,7 +99,7 @@ const _nav = [
     component: CNavItem,
     name: 'my-resources',
     to: '/my-resources',
-    roles: ["ROLE_PROF"],
+    roles: ['ROLE_PROF'],
     icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
   },
   {
