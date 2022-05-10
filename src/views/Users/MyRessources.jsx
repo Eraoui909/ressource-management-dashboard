@@ -15,9 +15,12 @@ const MyRessources = () => {
   const [visibleLgPanneModal, setVisibleLgPanneModal] = useState(false)
 
   const [dateAppartition, setDateAppartition] = useState("")
+  const [id, setId] = useState("")
   const [explicationPanne, setExplicationPanne] = useState("")
   const [frequencePanne, setFrequencePanne] = useState("")
   const [ordrePanne, setOrdrePanne] = useState("")
+  const [isEmpty, setIsEmpty] = useState(false)
+
 
 
 
@@ -41,6 +44,7 @@ const MyRessources = () => {
     let username = JSON.parse(localStorage.getItem("user")).username;
 
     declarerUnePanne({
+        id,
         dateAppartition,
         explicationPanne,
         frequencePanne,
@@ -76,8 +80,23 @@ const MyRessources = () => {
           <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
 
           <CTableDataCell>
+            {
+              console.log(t.panne)
+            }
 
-            <CButton className='btn btn-warning' onClick={() => setVisibleLgPanneModal(!visibleLgPanneModal)} >signaler une panne</CButton>
+            { (t.panne == null) && 
+              <CButton className='btn btn-warning' onClick={() => 
+                {setVisibleLgPanneModal(!visibleLgPanneModal)
+                setId(t.id)}
+                } >signaler une panne</CButton>
+            }
+
+            {(t.panne != null) && 
+              <CButton className='btn btn-succes' onClick={() => 
+                {setVisibleLgPanneModal(!visibleLgPanneModal)
+                setId(t.id)}
+                } >suiver la panne</CButton>
+            }
 
           </CTableDataCell>
       </CTableRow>

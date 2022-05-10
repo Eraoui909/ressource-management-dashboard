@@ -7,7 +7,7 @@ export const getResourcesForCurrentTeacher = async () =>{
 
 
   let username = JSON.parse(localStorage.getItem("user"))
-  let {data:resources} = await axios.get(RESOURCES_API_URL+"/computers/resources/teacher/"+username.username)
+  let {data:resources} = await axios.get(RESOURCES_API_URL+"/resources/username/"+username.username)
 
 
   return resources;
@@ -15,8 +15,9 @@ export const getResourcesForCurrentTeacher = async () =>{
 
 export const declarerUnePanne = async (panne) =>{
 
+  console.log(panne)
 
-  await axios.post(OLD_TEACHER_API_URL+"/teachers/signalerPanne",panne).then(
+  await axios.post(RESOURCES_API_URL+"/resources/signalerPanne",panne).then(
     (response) =>{
       console.log(response)
       return response;

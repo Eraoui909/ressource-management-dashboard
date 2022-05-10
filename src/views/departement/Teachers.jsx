@@ -88,10 +88,12 @@ const Teachers = () => {
     (phone.trim() === "")?setPhoneERROR("phone field is required"):setPhoneERROR("");
     (address.trim() === "")?setAddressERROR("address field is required"):setAddressERROR("");
     (laboratoire.trim() === "")?setLaboratoireERROR("laboratory field is required"):setAddressERROR("");
+    
 
-    if(_id.trim() !== "" && name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&& address.trim() !== "" && laboratoire.trim() !== ""){
+    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&& address.trim() !== "" && laboratoire.trim() !== ""){
 
-      updateTeacher({"id":_id,name,email,phone,address,laboratoire})
+      console.log("test")
+      updateTeacher({name,email,phone,address,laboratoire})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -99,9 +101,7 @@ const Teachers = () => {
         showConfirmButton: false,
         timer: 1500
       })
-      setTimeout(()=>{
-        window.location.reload()
-      },500);
+      
     }
   }
 
