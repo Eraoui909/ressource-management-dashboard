@@ -42,7 +42,9 @@ const MyRessources = () => {
   const [explicationPanne, setExplicationPanne] = useState('')
   const [frequencePanne, setFrequencePanne] = useState('')
   const [ordrePanne, setOrdrePanne] = useState('')
-  const [isEmpty, setIsEmpty] = useState(false)
+  const [Etats, setEtats] = useState('')
+
+  const [color, setColor] = useState('')
 
   useEffect(() => {
     getResourcesForCurrentTeacher().then((resp) => {
@@ -55,12 +57,12 @@ const MyRessources = () => {
     let username = JSON.parse(localStorage.getItem('user')).username
 
     declarerUnePanne({
-      id,
-      dateAppartition,
-      explicationPanne,
-      frequencePanne,
-      ordrePanne,
-      declaredBy: username,
+      "id":id,
+      "dateAppartition":dateAppartition,
+      "explicationPanne":explicationPanne,
+      "frequencePanne":frequencePanne,
+      "ordrePanne":ordrePanne,
+      "declaredBy": username,
     })
   }
 
@@ -97,16 +99,21 @@ const MyRessources = () => {
                           setId(t.id)
                         }}
                       >
-                        signaler une panne
+                        signaler la panne
                       </CButton>
                     )}
 
                     {t.panne != null && (
                       <CButton
-                        className="btn btn-succes"
+                        className="btn btn-success"
                         onClick={() => {
                           setVisibleLgPanneModal1(!visibleLgPanneModal1)
                           setId(t.id)
+                          setDateAppartition(t.panne.dateAppartition)
+                          setExplicationPanne(t.panne.explicationPanne)
+                          setFrequencePanne(t.panne.frequencePanne)
+                          setOrdrePanne(t.panne.ordrePanne)
+                          setEtats(t.panne.etats)
                         }}
                       >
                         suiver la panne
@@ -166,7 +173,6 @@ const MyRessources = () => {
                 </CForm>
               </CModalBody>
             </CModal>
-            
 
             <CModal
               size="lg"
@@ -174,52 +180,53 @@ const MyRessources = () => {
               onClose={() => setVisibleLgPanneModal1(false)}
             >
               <CModalHeader>
-                <CModalTitle>Declarer Une Panne</CModalTitle>
+                <CModalTitle>Suiver la Panne</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm>
-                  <CFormLabel>date d’apparition</CFormLabel>
                   <CInputGroup className="mb-3">
-                    <CFormInput type="date" onChange={(e) => setDateAppartition(e.target.value)} />
+                    <CFormLabel className="col-5 m-1">date d’apparition</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
+                    <CFormLabel className="col-5 m-1">{dateAppartition}</CFormLabel>
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CFormLabel className="col-5 m-1"> explication de la panne</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
+
+                    <CFormLabel className="col-5 m-1">{explicationPanne}</CFormLabel>
                   </CInputGroup>
 
-                  <CFormLabel> explication de la panne</CFormLabel>
                   <CInputGroup className="mb-3">
-                    <CFormTextarea
-                      onChange={(e) => setExplicationPanne(e.target.value)}
-                    ></CFormTextarea>
+                    <CFormLabel className="col-5 m-1">fréquence</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
+
+                    <CFormLabel className="col-5 m-1">{frequencePanne}</CFormLabel>
                   </CInputGroup>
 
-                  <CFormLabel>fréquence</CFormLabel>
                   <CInputGroup className="mb-3">
-                    <CFormSelect onChange={(e) => setFrequencePanne(e.target.value)}>
-                      <option value=""></option>
-                      <option value="rare">rare</option>
-                      <option value="fréquente ">fréquente</option>
-                      <option value="permanente">permanente</option>
-                    </CFormSelect>
-                  </CInputGroup>
+                    <CFormLabel className="col-5 m-1">ordre de panne</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
 
-                  <CFormLabel>ordre de panne</CFormLabel>
+                    <CFormLabel className="col-5 m-1">{ordrePanne}</CFormLabel>
+                  </CInputGroup>
+                  {
+                    console.log(Etats)                 }
+                  
                   <CInputGroup className="mb-3">
-                    <CFormSelect onChange={(e) => setOrdrePanne(e.target.value)}>
-                      <option value=""></option>
-                      <option value="logiciel">logiciel</option>
-                      <option value="materiel ">materiel</option>
-                    </CFormSelect>
+                    <CFormLabel className="col-5 m-1">Etats</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
+                    <CFormLabel className="col-5 m-1 text-warning">{Etats}</CFormLabel>
                   </CInputGroup>
-
-                  <CButton className="btn btn-warning" onClick={signalerPanne}>
-                    signaler
-                  </CButton>
+                  
+                  <CInputGroup className="mb-3">
+                    <CFormLabel className="col-9 m-1"></CFormLabel>
+                    <CButton className="btn btn-lg" onClick={() => setVisibleLgPanneModal1(false)}>
+                      Close
+                    </CButton>
+                  </CInputGroup>
                 </CForm>
               </CModalBody>
             </CModal>
-
-
-
-
-
           </CTableBody>
         </CTable>
       </div>
