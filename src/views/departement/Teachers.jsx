@@ -14,6 +14,7 @@ const Teachers = () => {
 
   // states variables
   const [teachers,setTeachers]                = useState([])
+  const [roles,setRoles]                = useState([])
   const [visibleLg, setVisibleLg]             = useState(false)
   const [visibleUpdate, setVisibleUpdate]     = useState(false)
   const [_id,setId]                           = useState("")
@@ -82,16 +83,15 @@ const Teachers = () => {
 
   // update teacher action
   const handleUpdate = (id)=>{
-
     (name.trim() === "")?setNameERROR("name field is required"):setNameERROR("");
     (email.trim() === "")?setEmailERROR("email field is required"):setEmailERROR("");
     (phone.trim() === "")?setPhoneERROR("phone field is required"):setPhoneERROR("");
     (address.trim() === "")?setAddressERROR("address field is required"):setAddressERROR("");
+    (department.trim() === "")?setAddressERROR("address field is required"):setAddressERROR("");
     (laboratoire.trim() === "")?setLaboratoireERROR("laboratory field is required"):setAddressERROR("");
 
-    if(_id.trim() !== "" && name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&& address.trim() !== "" && laboratoire.trim() !== ""){
-
-      updateTeacher({"id":_id,name,email,phone,address,laboratoire})
+    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&& address.trim() !== "" && department.trim() !== "" && laboratoire.trim() !== ""){
+      updateTeacher({"id":_id,name,email,phone,address,department,laboratoire})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -99,11 +99,12 @@ const Teachers = () => {
         showConfirmButton: false,
         timer: 1500
       })
-      setTimeout(()=>{
-        window.location.reload()
-      },500);
+      // setTimeout(()=>{
+      //   window.location.reload()
+      // },500);
     }
   }
+
 
   // show update modal
   const showUpdateModal = (id)=>{
@@ -116,6 +117,7 @@ const Teachers = () => {
         setEmail(resp.email)
         setPhone(resp.phone)
         setAddress(resp.address)
+        setDepartment(resp.department)
         setLaboratoire(resp.laboratoire)
       }
     )
@@ -239,6 +241,14 @@ const Teachers = () => {
         </div>
       </CToast>
       }
+      { departmentERROR &&
+      <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
+        <div className="d-flex">
+          <CToastBody>{departmentERROR}</CToastBody>
+         <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+      }
       { laboratoireERROR &&
       <CToast autohide={false} visible={true} color="danger" className="text-white align-items-center">
         <div className="d-flex">
@@ -275,6 +285,13 @@ const Teachers = () => {
           <CFormInput type="text" id="exampleFormControlInput1"
             value={address}
             onChange={(e)=>{ setAddress(e.target.value)}}
+          />
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Departement</CFormLabel>
+          <CFormInput type="text" id="exampleFormControlInput1"
+            value={department}
+            onChange={(e)=>{ setDepartment(e.target.value)}}
           />
         </div>
         <div className="mb-3">
