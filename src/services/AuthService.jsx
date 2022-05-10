@@ -20,5 +20,6 @@ export function logout(){
   localStorage.removeItem("roles");
   localStorage.removeItem("email");
   localStorage.removeItem("username");
+  localStorage.removeItem("token");
 
 }

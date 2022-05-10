@@ -8,10 +8,10 @@ const Dashboard = () => {
   const navigate = useNavigate();
   useEffect( ()=>{
     if(authentified()){
-      let check = checkRoles(["ROLE_ADMIN"]);
-      if(!check){
-        navigate("../404", { replace: true });
-      }
+      // let check = checkRoles(["ROLE_ADMIN"]);
+      // if(!check){
+      //   navigate("../404", { replace: true });
+      // }
     }else{
       navigate("../login", { replace: true });
     }

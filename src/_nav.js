@@ -41,20 +41,20 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+        name: 'Add Resource',
+        to: '/resources/',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
         name: 'Computers',
         to: '/resources/computers',
-        icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+        icon: <CIcon customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
         name: 'Printers',
         to: '/resources/printers',
-        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
-      },
-      {
-        component: CNavItem,
-        name: 'ADD-Resources',
-        to: '/resources/',
         icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
       },
     ],
@@ -86,6 +86,7 @@ const _nav = [
   },
   {
     component: CNavItem,
+    to: '/my-resources',
     name: 'Teachers',
     roles: ["ROLE_ADMIN"],
     to: '/departement/teachers',
@@ -97,6 +98,13 @@ const _nav = [
     roles: ["ROLE_CHEF_DEP"],
     to: '/chefDepartement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'my-resources',
+    to: '/my-resources',
+    roles: ["ROLE_PROF"],
+    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,

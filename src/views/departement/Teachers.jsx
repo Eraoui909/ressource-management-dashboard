@@ -1,10 +1,11 @@
-import { CAlert, CForm, CFormInput, CModal, CModalBody, CModalHeader, CModalTitle, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose } from '@coreui/react';
+import { CAlert, CForm, CFormInput, CModal, CModalBody, CModalHeader, CModalTitle, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastClose, CFormSelect } from '@coreui/react';
 import React, { useEffect, useState } from 'react';
 import { addNewTeacher, getTeachers,deleteTeacherService, getTeacher, updateTeacher } from 'src/services/TeachersService';
 import { CButton } from '@coreui/react';
 import { CFormLabel } from '@coreui/react';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { getDepartments } from './../../services/DepartmentsService';
 
 const MySwal = withReactContent(Swal)
 
@@ -26,6 +27,10 @@ const Teachers = () => {
   const [addressERROR,setAddressERROR]        = useState("")
   const [laboratoire,setLaboratoire]          = useState("")
   const [laboratoireERROR,setLaboratoireERROR]   = useState("")
+  const [department,setDepartment]          = useState("")
+  const [departmentERROR,setDepartmentERROR]   = useState("")
+  const [departments,setDepartments]          = useState([])
+
 
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -34,6 +39,13 @@ const Teachers = () => {
     getTeachers().then(
         (resp) =>{
           setTeachers(resp);
+        }
+      )
+
+    getDepartments().then(
+        (resp) =>{
+          setDepartments(resp);
+          console.log(resp);
         }
       )
   },[])
@@ -53,9 +65,10 @@ const Teachers = () => {
     (laboratoire.trim() === "")?setLaboratoireERROR("laboratory field is required"):setAddressERROR("");
 
 
-    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&&address.trim() !== "" && laboratoire.trim() !== ""){
+    if(name.trim() !== "" && email.trim()!==""&&phone.trim() !== ""&&address.trim() !== "" && laboratoire.trim() !== "" && department.trim() !== ""){
 
-      addNewTeacher({name,email,phone,address,laboratoire})
+
+      addNewTeacher({name,email,phone,address,department,laboratoire})
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -63,7 +76,7 @@ const Teachers = () => {
         showConfirmButton: false,
         timer: 1500
       })
-      
+
     }
   }
 
@@ -156,6 +169,7 @@ const Teachers = () => {
           <CTableHeaderCell scope="col">Email</CTableHeaderCell>
           <CTableHeaderCell scope="col">Phone</CTableHeaderCell>
           <CTableHeaderCell scope="col">Address</CTableHeaderCell>
+          <CTableHeaderCell scope="col">Département</CTableHeaderCell>
           <CTableHeaderCell scope="col">Laboratory</CTableHeaderCell>
           <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
         </CTableRow>
@@ -170,6 +184,7 @@ const Teachers = () => {
                 <CTableDataCell>{t.email}</CTableDataCell>
                 <CTableDataCell>{t.phone}</CTableDataCell>
                 <CTableDataCell>{t.address}</CTableDataCell>
+                <CTableDataCell>{t.department}</CTableDataCell>
                 <CTableDataCell>{t.laboratoire}</CTableDataCell>
                 <CTableDataCell>
                     <CButton color="success" style={styles.ha_btn_font} value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
@@ -339,6 +354,21 @@ const Teachers = () => {
             value={address}
             onChange={(e)=>{ setAddress(e.target.value)}}
           />
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="exampleFormControlInput1">Département</CFormLabel>
+          <CFormSelect aria-label="Default select example"
+              onChange={e => {setDepartment(e.target.value)}}
+            >
+              <option value="" >no one</option>
+              {
+                departments.map((t,index) =>{
+                  return (
+                    <option value={t.name} key={index}>{t.name}</option>
+                  )
+                })
+              }
+            </CFormSelect>
         </div>
         <div className="mb-3">
           <CFormLabel htmlFor="exampleFormControlInput1">Laboratoire</CFormLabel>

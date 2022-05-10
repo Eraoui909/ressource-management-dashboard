@@ -53,7 +53,7 @@ const Computers = () => {
 
     getAll().then(
       (resp) =>{
-        // console.log(resp);
+        console.log(resp);
         setComputers(resp);
       }
     )
@@ -242,7 +242,7 @@ const Computers = () => {
                 <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
                 <CTableDataCell>{t.date}</CTableDataCell>
                 <CTableDataCell>{t.affectedToDepartment ? t.affectedToDepartment : "No One"}</CTableDataCell>
-                <CTableDataCell>{t.affectedToOwner ? t.affectedToOwner.name : "No One"}</CTableDataCell>
+                <CTableDataCell>{t.affectedToOwner ? t.affectedToOwner.username : "No One"}</CTableDataCell>
                 <CTableDataCell>
                     <CButton color="success" value={t.id} onClick={(e)=> showUpdateModal(e.target.value)}>Modify</CButton>
                     <CButton color="danger" value={t.id} onClick={(e)=> deleteComp(e.target.value)}>Delete</CButton>
