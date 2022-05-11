@@ -54,31 +54,24 @@ export const AppSidebarNav = ({ items }) => {
       </Component>
     )
   }
-  var roles = [""]
+  var roles = ['']
   try {
-    roles = JSON.parse(localStorage.getItem("user")).roles
-  } catch (error) {
-    
-  }
-  
+    roles = JSON.parse(localStorage.getItem('user')).roles
+  } catch (error) {}
+
   // console.log(roles)
   return (
     <React.Fragment>
-      {
-      
-      items &&
+      {items &&
         items.map((item, index) => {
           var test = false
-          roles.forEach(element => {
-            
-            if((!item.roles || item.roles.includes(element))) 
-            {
+          roles.forEach((element) => {
+            if (!item.roles || item.roles.includes(element)) {
               test = true
             }
-          });
-          return test ? (item.items ? navGroup(item, index) : navItem(item, index)) : '';
-        }
-      )}
+          })
+          return test ? (item.items ? navGroup(item, index) : navItem(item, index)) : ''
+        })}
     </React.Fragment>
   )
 }

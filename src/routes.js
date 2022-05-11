@@ -13,6 +13,7 @@ const Computers = React.lazy(() => import('./views/ressources/Computers'))
 const MyRessources = React.lazy(() => import('./views/Users/MyRessources'))
 const Resources = React.lazy(() => import('./views/ressources/Ressources'))
 const Printers = React.lazy(() => import('./views/ressources/Printers'))
+const Pannes = React.lazy(() => import('./views/RespoMaintenance/ListesDesPannes'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -68,11 +69,12 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/profile', name: 'Profile', element: Profile},
+  { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/pannes' , name: 'Pannes' , element: Pannes},
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/chefDepartement/teachers', name: 'ChefDep', element: ChefDep },
   { path: '/departement/departments', name: 'Department', element: Departments },
-  { path: '/departement/administrative' , name: 'Administrative' , element: Administrative},
+  { path: '/departement/administrative', name: 'Administrative', element: Administrative },
   { path: '/resources/computers', name: 'Computers', element: Computers },
   { path: '/resources/printers', name: 'Computers', element: Printers },
   { path: '/my-resources', name: 'MyRessources', element: MyRessources },

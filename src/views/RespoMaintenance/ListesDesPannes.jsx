@@ -25,17 +25,13 @@ import { CButton } from '@coreui/react'
 import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import {
-  getResourcesForCurrentTeacher,
-  declarerUnePanne,
-} from './../../services/MyRessourcesService'
+import { getAll, UpdateCommentaires } from './../../services/RespoMaintenanceService'
 
 const MySwal = withReactContent(Swal)
 
-const MyRessources = () => {
+const ListesDesPannes = () => {
   const [ressources, setRessources] = useState([])
   const [visibleLgPanneModal, setVisibleLgPanneModal] = useState(false)
-  const [visibleLgPanneModal1, setVisibleLgPanneModal1] = useState(false)
 
   const [dateAppartition, setDateAppartition] = useState('')
   const [id, setId] = useState('')
@@ -43,28 +39,35 @@ const MyRessources = () => {
   const [frequencePanne, setFrequencePanne] = useState('')
   const [ordrePanne, setOrdrePanne] = useState('')
   const [Etats, setEtats] = useState('')
-
-  const [color, setColor] = useState('')
+  const [Commentaire, setCommentaire] = useState('')
 
   useEffect(() => {
-    getResourcesForCurrentTeacher().then((resp) => {
-      console.log(resp)
+    var test = getAll()
+    test.then((resp)=> {
       setRessources(resp)
     })
   }, [])
 
-  const signalerPanne = () => {
-    let username = JSON.parse(localStorage.getItem('user')).username
-
-    declarerUnePanne({
-      "id":id,
-      "dateAppartition":dateAppartition,
-      "explicationPanne":explicationPanne,
-      "frequencePanne":frequencePanne,
-      "ordrePanne":ordrePanne,
-      "declaredBy": username,
-    })
+  const HandleEnvoyer = () =>{
+      UpdateCommentaires({
+          id:id,
+          commentaire:Commentaire
+      })
   }
+
+
+  // const signalerPanne = () => {
+  //   let username = JSON.parse(localStorage.getItem('user')).username
+
+  //   declarerUnePanne({
+  //     "id":id,
+  //     "dateAppartition":dateAppartition,
+  //     "explicationPanne":explicationPanne,
+  //     "frequencePanne":frequencePanne,
+  //     "ordrePanne":ordrePanne,
+  //     "declaredBy": username,
+  //   })
+  // }
 
   return (
     <>
@@ -76,38 +79,25 @@ const MyRessources = () => {
               <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
               <CTableHeaderCell scope="col">Date</CTableHeaderCell>
               <CTableHeaderCell scope="col">période de garantie</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Envoyer</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
             {ressources.map((t, index) => {
               return (
-                <CTableRow key={index}>
+                  t.panne != null &&
+                  <CTableRow key={index}>
                   <CTableDataCell>{t.marque}</CTableDataCell>
                   <CTableDataCell>{t.provider}</CTableDataCell>
                   <CTableDataCell>{t.date}</CTableDataCell>
                   <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
 
                   <CTableDataCell>
-                    {console.log(t.panne)}
-
-                    {t.panne == null && (
-                      <CButton
-                        className="btn btn-warning"
-                        onClick={() => {
-                          setVisibleLgPanneModal(!visibleLgPanneModal)
-                          setId(t.id)
-                        }}
-                      >
-                        signaler la panne
-                      </CButton>
-                    )}
-
                     {t.panne != null && (
                       <CButton
                         className="btn btn-success"
                         onClick={() => {
-                          setVisibleLgPanneModal1(!visibleLgPanneModal1)
+                          setVisibleLgPanneModal(!visibleLgPanneModal)
                           setId(t.id)
                           setDateAppartition(t.panne.dateAppartition)
                           setExplicationPanne(t.panne.explicationPanne)
@@ -116,7 +106,7 @@ const MyRessources = () => {
                           setEtats(t.panne.etats)
                         }}
                       >
-                        suiver la panne
+                        Envoyer Constat
                       </CButton>
                     )}
                   </CTableDataCell>
@@ -124,60 +114,11 @@ const MyRessources = () => {
               )
             })}
 
-            {/* signaler la panne -- MODAL */}
-
+            {/* Envoyer COnstat Modal */}
             <CModal
               size="lg"
               visible={visibleLgPanneModal}
               onClose={() => setVisibleLgPanneModal(false)}
-            >
-              <CModalHeader>
-                <CModalTitle>Declarer Une Panne</CModalTitle>
-              </CModalHeader>
-              <CModalBody>
-                <CForm>
-                  <CFormLabel>date d’apparition</CFormLabel>
-                  <CInputGroup className="mb-3">
-                    <CFormInput type="date" onChange={(e) => setDateAppartition(e.target.value)} />
-                  </CInputGroup>
-
-                  <CFormLabel> explication de la panne</CFormLabel>
-                  <CInputGroup className="mb-3">
-                    <CFormTextarea
-                      onChange={(e) => setExplicationPanne(e.target.value)}
-                    ></CFormTextarea>
-                  </CInputGroup>
-
-                  <CFormLabel>fréquence</CFormLabel>
-                  <CInputGroup className="mb-3">
-                    <CFormSelect onChange={(e) => setFrequencePanne(e.target.value)}>
-                      <option value=""></option>
-                      <option value="rare">rare</option>
-                      <option value="fréquente ">fréquente</option>
-                      <option value="permanente">permanente</option>
-                    </CFormSelect>
-                  </CInputGroup>
-
-                  <CFormLabel>ordre de panne</CFormLabel>
-                  <CInputGroup className="mb-3">
-                    <CFormSelect onChange={(e) => setOrdrePanne(e.target.value)}>
-                      <option value=""></option>
-                      <option value="logiciel">logiciel</option>
-                      <option value="materiel ">materiel</option>
-                    </CFormSelect>
-                  </CInputGroup>
-
-                  <CButton className="btn btn-warning" onClick={signalerPanne}>
-                    signaler
-                  </CButton>
-                </CForm>
-              </CModalBody>
-            </CModal>
-
-            <CModal
-              size="lg"
-              visible={visibleLgPanneModal1}
-              onClose={() => setVisibleLgPanneModal1(false)}
             >
               <CModalHeader>
                 <CModalTitle>Suiver la Panne</CModalTitle>
@@ -211,17 +152,25 @@ const MyRessources = () => {
                   </CInputGroup>
                   {
                     console.log(Etats)                 }
-                  
+
                   <CInputGroup className="mb-3">
                     <CFormLabel className="col-5 m-1">Etats</CFormLabel>
                     <CFormLabel className="col-1 m-1">:</CFormLabel>
                     <CFormLabel className="col-5 m-1 text-warning">{Etats}</CFormLabel>
                   </CInputGroup>
-                  
+
+                  <CFormLabel>Commentaire</CFormLabel>
+                  <CInputGroup className="mb-3">
+                    <CFormTextarea
+                      value={Commentaire}
+                      onChange={(e) => setCommentaire(e.target.value)}
+                    ></CFormTextarea>
+                  </CInputGroup>
+
                   <CInputGroup className="mb-3">
                     <CFormLabel className="col-9 m-1"></CFormLabel>
-                    <CButton className="btn btn-lg" onClick={() => setVisibleLgPanneModal1(false)}>
-                      Close
+                    <CButton className="btn btn-lg" onClick={HandleEnvoyer}>
+                      Envoyer
                     </CButton>
                   </CInputGroup>
                 </CForm>
@@ -234,4 +183,4 @@ const MyRessources = () => {
   )
 }
 
-export default MyRessources
+export default ListesDesPannes
