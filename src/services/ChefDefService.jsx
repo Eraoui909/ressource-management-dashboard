@@ -26,4 +26,25 @@ export const updateChefdep = async (chefdepID) =>{
   )
 }
 
+export const sendDemandRequest = async (demand) =>{
+
+  console.log(demand)
+  await axios.post(CHEFDEP_API_URL+"/chefDepartement/availableBudget",demand).then(
+    (response) =>{
+      console.log(response)
+      return response;
+    }
+  ).catch(
+    (error) =>{
+      return error;
+    }
+  )
+}
+
+export const getAllRequests = async () =>{
+  let {data:requests} = await axios.get(CHEFDEP_API_URL+"/chefDepartement/resources-requests/")
+
+  return requests;
+}
+
 

@@ -2,7 +2,6 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import CPrinter from '@coreui/icons-react'
 
-
 import {
   cilBell,
   cilCalculator,
@@ -16,7 +15,7 @@ import {
   cilStar,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
-import Teachers from './views/departement/Teachers';
+import Teachers from './views/departement/Teachers'
 
 const _nav = [
   {
@@ -35,15 +34,21 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    roles: ["ROLE_CHEF_RESOURCES"],
+    roles: ['ROLE_CHEF_RESOURCES'],
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [ 
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add Resource',
+        to: '/resources/',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      },
       {
         component: CNavItem,
         name: 'Computers',
         to: '/resources/computers',
-        icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+        icon: <CIcon customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
@@ -56,7 +61,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Departement',
-    roles: ["ROLE_CHEF_DEP", "ROLE_ADMIN"],
+    roles: ['ROLE_CHEF_DEP', 'ROLE_ADMIN'],
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
@@ -74,51 +79,90 @@ const _nav = [
         name: 'Administrative',
         to: '/departement/administrative',
       },
-
-
+    ],
+  },
+  {
+    component: CNavGroup,
+    roles: ['ROLE_CHEF_DEP'],
+    name: 'Recieved Requests',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'All Requests',
+        to: '/recieved-requests',
+        icon: <CIcon customClassName="nav-icon" />,
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    roles: ['ROLE_PROF'],
+    name: 'My Resources Requests',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'All Requests',
+        to: '/my-requests',
+        icon: <CIcon customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Send Request',
+        to: '/request-resources/',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      }
     ],
   },
   {
     component: CNavItem,
     name: 'Teachers',
-    roles: ["ROLE_ADMIN"],
+    roles: ['ROLE_ADMIN'],
     to: '/departement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'ChefDep',
-    roles: ["ROLE_CHEF_DEP"],
+    roles: ['ROLE_CHEF_DEP'],
     to: '/chefDepartement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
-    component: CNavGroup,
-    name: 'Pages',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Login',
-        to: '/login',
-      },
-      {
-        component: CNavItem,
-        name: 'Register',
-        to: '/register',
-      },
-      {
-        component: CNavItem,
-        name: 'Error 404',
-        to: '/404',
-      },
-      {
-        component: CNavItem,
-        name: 'Error 500',
-        to: '/500',
-      },
-    ],
+    component: CNavItem,
+    name: 'my-resources',
+    to: '/my-resources',
+    roles: ['ROLE_PROF'],
+    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
   },
+  // {
+  //   component: CNavGroup,
+  //   name: 'Pages',
+  //   icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Login',
+  //       to: '/login',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Register',
+  //       to: '/register',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Error 404',
+  //       to: '/404',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Error 500',
+  //       to: '/500',
+  //     },
+  //   ],
+  // },
 ]
 /*
 const _nav = [
