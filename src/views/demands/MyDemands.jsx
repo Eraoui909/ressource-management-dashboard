@@ -54,11 +54,12 @@ const AllRequests = () => {
                       <CCard>
                       <CCardBody>
                         <CCardTitle>Request {index + 1}</CCardTitle>
-                        <CBadge color="info" className="ms-2"
-                          style={{float: "right", marginTop: "-30px"}}
-                        >
+                        <CCardTitle>
+                          <CBadge color="info" className="ms-2">
                           {request.status}
-                        </CBadge>
+                          </CBadge>
+                        </CCardTitle>
+                        
                           {/* <CCardTitle>From: {request.sender}</CCardTitle>
                           <CCardTitle>In: {request.department}</CCardTitle> */}
                           <hr/>

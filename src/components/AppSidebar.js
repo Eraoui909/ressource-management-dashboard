@@ -2,15 +2,13 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { cilCursor } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
 import { CNavItem, CBadge } from '@coreui/react'
 
-import { logoNegative } from 'src/assets/brand/logo-negative'
-import { sygnet } from 'src/assets/brand/sygnet'
 
 import SimpleBar from 'simplebar-react'
 import Swal from 'sweetalert2'
@@ -53,7 +51,7 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
-          <strong style={{fontSize:"20px"}}>Resources Management</strong>
+        <strong style={{ fontSize: '20px' }}>Resources Management</strong>
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
