@@ -495,24 +495,22 @@ const Computers = () => {
                 </CFormSelect>
                 <tr />
                 <CFormLabel htmlFor="exampleFormControlInput1">Member</CFormLabel>
-                <CFormSelect
-                  aria-label="Default select example"
-                  onChange={(e) => {
-                    setOwner(owners[e.target.value])
-                  }}
-                  disabled={isDisabled}
-                >
-                  <option value={owner == null ? '' : owner}>
-                    {owner == null ? 'No One' : owner}
-                  </option>
-                  {owners.map((t, index) => {
-                    return (
-                      <option value={index} key={index}>
-                        {t.name}
-                      </option>
-                    )
-                  })}
-                </CFormSelect>
+              <CFormSelect
+                aria-label="Default select example"
+                onChange={(e) => {
+                  setOwner(owners[e.target.value])
+                }}
+                disabled={isDisabled}
+              >
+                <option value="">No One</option>
+                {owners.map((t, index) => {
+                  return (
+                    <option value={index} key={index}>
+                      {t.username}
+                    </option>
+                  )
+                })}
+              </CFormSelect>
               </div>
             </div>
           </CForm>

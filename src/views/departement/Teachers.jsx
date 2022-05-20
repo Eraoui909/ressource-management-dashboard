@@ -34,7 +34,7 @@ import { getDepartments } from './../../services/DepartmentsService'
 const MySwal = withReactContent(Swal)
 
 const Teachers = () => {
-  // states variables
+
   const [teachers, setTeachers] = useState([])
   const [visibleLg, setVisibleLg] = useState(false)
   const [visibleUpdate, setVisibleUpdate] = useState(false)
@@ -52,6 +52,7 @@ const Teachers = () => {
   const [department, setDepartment] = useState('')
   const [departmentERROR, setDepartmentERROR] = useState('')
   const [departments, setDepartments] = useState([])
+
 
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -128,6 +129,7 @@ const Teachers = () => {
       })
     }
   }
+
 
   // show update modal
   const showUpdateModal = (id) => {
@@ -223,6 +225,7 @@ const Teachers = () => {
           </CTableBody>
         </CTable>
       </div>
+
 
       {/* Update Teacher Modal */}
       <CModal size="lg" visible={visibleUpdate} onClose={() => setVisibleUpdate(false)}>
