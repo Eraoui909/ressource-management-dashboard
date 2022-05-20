@@ -42,3 +42,15 @@ export const updateChefdep = async (chefdepID) => {
       return error
     })
 }
+
+export const sendDemandToRespRes = async (dem) =>{
+  let {data:demand} = await axios.post(CHEFDEP_API_URL + "/chefDepartement/sendDemand" ,
+   {
+     "sender" : JSON.parse(localStorage.getItem("user")).email,
+     "department" : JSON.parse(localStorage.getItem("user")).department,
+     "status" : "Sent",
+     "resources" : dem
+   })
+
+  return demand;
+}

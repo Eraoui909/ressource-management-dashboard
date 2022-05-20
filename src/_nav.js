@@ -33,6 +33,13 @@ const _nav = [
     name: 'Departement',
   },
   {
+    component: CNavItem,
+    name: 'SendFinalDemand',
+    roles: ['ROLE_CHEF_DEP'],
+    to: '/send-final-demand',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />
+  },
+  {
     component: CNavGroup,
     roles: ['ROLE_CHEF_RESOURCES'],
     name: 'Ressources',
