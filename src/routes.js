@@ -15,6 +15,7 @@ const SendDemand = React.lazy(() => import('./views/demands/SendDemand'))
 const Demands = React.lazy(() => import('./views/demands/MyDemands'))
 const SendFinalDemand = React.lazy(() => import('./views/demands/SendFinalDemand'))
 const Requests = React.lazy(() => import('./views/recieved_requests/AllRequests'))
+const SentRequests = React.lazy(() => import('./views/sent_requests/AllSentRequests'))
 const Printers = React.lazy(() => import('./views/ressources/Printers'))
 const Pannes = React.lazy(() => import('./views/RespoMaintenance/ListesDesPannes'))
 
@@ -82,8 +83,9 @@ const routes = [
   { path: '/resources/printers', name: 'Computers', element: Printers },
   { path: '/my-resources', name: 'MyRessources', element: MyRessources },
   { path: '/recieved-requests', name: 'RecievedRequests', element: Requests },
+  { path: '/sent-requests', name: 'SentRequests', element: SentRequests },
   { path: '/request-resources', name: 'DemandResources', element: SendDemand },
-  { path: '/send-final-demand', name: 'DemandResources', element: SendFinalDemand },
+  { path: '/send-final-demand', name: 'FinalDemandResources', element: SendFinalDemand },
   { path: '/my-requests', name: 'Demands', element: Demands },
   { path: '/resources/', name: 'Resources', element: Resources },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
