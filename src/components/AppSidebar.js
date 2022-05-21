@@ -24,9 +24,18 @@ const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  var existElement = false
+  try{
+    existElement = JSON.parse(localStorage.getItem("user")).roles.includes("ROLE_CHEF_DEP")
+  }catch(error){
+
+  }
   const sendRequest = (e) => {
     e.preventDefault()
     var user = JSON.parse(localStorage.getItem("user"));
+    
+
     var demand = {
       "sender" : user.id,
       "department" : user.department
@@ -56,7 +65,7 @@ const AppSidebar = () => {
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation} />
-        {JSON.parse(localStorage.getItem("user")).roles.includes("ROLE_CHEF_DEP") &&
+        {existElement &&
             (<CNavItem>
               <a className="nav-link" href="#/my-resources"
                 onClick={sendRequest}
