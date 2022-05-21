@@ -5,20 +5,7 @@ import {
   CCardBody,
   CCardTitle,
   CCardText,
-  CFormInput,
-  CFormCheck,
-  CAlert,
-  CForm,
-  CModal,
-  CModalBody,
-  CModalHeader,
-  CModalTitle,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
+  CBadge,
 
 } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
@@ -27,44 +14,22 @@ import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
-  AddOffer
-} from 'src/services/OfferService'
-import {
-  getAllDemands
-} from '../../services/TeachersService'
-import { getAllRequests } from 'src/services/ChefDefService'
+  getOffers
+} from '../../services/OfferService'
 
 const MySwal = withReactContent(Swal)
 
-const AllRequests = () => {
+const AllOffers = () => {
 
   const [requests, setRequests] = useState([])
-  const [title, setTitle] = useState("")
-  const [description, setdescription] = useState("")
-  const [demands, setDemands] = useState([])
-  const [check, setCheck] = useState("")
-  const [visibleLg, setVisibleLg] = useState(false)
 
   useEffect(() => {
-    getAllRequests().then((resp) => {
+    getOffers().then((resp) => {
       console.log(resp)
       setRequests(resp)
     })
   }, [])
 
-
-
-
-
-
-
-
-  const styles = {
-    ha_btn_font: {
-      color: '#FFF',
-      margin: '5px',
-    },
-  }
 
   return (
     <>
@@ -76,15 +41,25 @@ const AllRequests = () => {
                 <CCol key={index} sm={6} className="mb-4">
                   <CCard>
                     <CCardBody>
-                      <CCardTitle>From: {request.sender}</CCardTitle>
-                      <CCardTitle>In: {request.department}</CCardTitle>
+                      <CCardTitle>{request.title}</CCardTitle>
+                      <CCardTitle>
+                        <CBadge color="info" className="ms-2">
+                          {request.status}
+                        </CBadge>
+                      </CCardTitle>
                       <hr />
+                      <CCardTitle>
+                        <p>Description:</p>
+                      </CCardTitle>
+                      <p>{request.description}</p>
                       <CCardText>
                         {
                           request.resources.map((resource, i) => {
                             return (
                               <div key={i}>
-                                {/* <p>{"{"}</p> */}
+                                <CCardTitle>
+                                  <p>Ressource {i + 1}</p>
+                                </CCardTitle>
                                 <div className='px-4'>
                                   {resource.speed && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Printer</p>)}
                                   {(resource.cpu != null) && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Computer</p>)}
@@ -97,7 +72,7 @@ const AllRequests = () => {
                                   {resource.resolution && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resolution : </span> {resource.resolution}</p>)}
                                   <p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Qte : </span> {resource.qte}</p>
                                 </div>
-                                {/* <p>{"}"}</p> */}
+                                <p>{"}"}</p>
                               </div>
                             )
                           })
@@ -105,7 +80,6 @@ const AllRequests = () => {
                         <hr />
                         <p>{request.date}</p>
                       </CCardText>
-                      <CButton href="#">Go somewhere</CButton>
                     </CCardBody>
                   </CCard>
                 </CCol>
@@ -114,9 +88,10 @@ const AllRequests = () => {
           }
           )}
         </CRow>
+
       </div>
     </>
   )
 }
 
-export default AllRequests
+export default AllOffers

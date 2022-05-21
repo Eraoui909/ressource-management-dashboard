@@ -8,6 +8,8 @@ const Administrative = React.lazy(() => import('./views/departement/Administrati
 
 const ChefDep = React.lazy(() => import('./views/chefDep/ChefDep'))
 
+const SendOffers = React.lazy(() => import('./views/offers/Offers'))
+const Offers = React.lazy(() => import('./views/offers/AllOffers'))
 const Computers = React.lazy(() => import('./views/ressources/Computers'))
 const MyRessources = React.lazy(() => import('./views/Users/MyRessources'))
 const Resources = React.lazy(() => import('./views/ressources/Ressources'))
@@ -79,6 +81,8 @@ const routes = [
   { path: '/departement/administrative', name: 'Administrative', element: Administrative },
   { path: '/resources/computers', name: 'Computers', element: Computers },
   { path: '/resources/printers', name: 'Computers', element: Printers },
+  { path: '/sendoffers' , name: 'SendOffers' , element: SendOffers},
+  { path: '/offers' , name: 'AllOffers' , element: Offers},
   { path: '/my-resources', name: 'MyRessources', element: MyRessources },
   { path: '/recieved-requests', name: 'RecievedRequests', element: Requests },
   { path: '/request-resources', name: 'DemandResources', element: SendDemand },

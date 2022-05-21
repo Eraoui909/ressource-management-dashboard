@@ -97,7 +97,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    roles: ['ROLE_PROF'],
+    roles: ['ROLE_PROF','ROLE_CHEF_DEP'],
     name: 'My Resources Requests',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
@@ -121,6 +121,26 @@ const _nav = [
     roles: ['ROLE_ADMIN'],
     to: '/departement/teachers',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavGroup,
+    name: 'Offers',
+    roles: ['ROLE_CHEF_RESOURCES'],
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Send Offer',
+        to: '/sendoffers',
+        icon: <CIcon customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'All offers',
+        to: '/offers',
+        icon: <CIcon icon={CPrinter} customClassName="nav-icon" />,
+      }
+    ],
   },
   {
     component: CNavItem,
