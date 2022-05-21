@@ -34,6 +34,27 @@ const _nav = [
   },
   {
     component: CNavGroup,
+    roles: ['ROLE_CHEF_DEP'],
+    name: 'Sent Requests',
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      
+      {
+        component: CNavItem,
+        name: 'All Requests',
+        to: '/sent-requests',
+        icon: <CIcon icon={cilStar} customClassName="nav-icon" />
+      },
+      {
+        component: CNavItem,
+        name: 'Send Request',
+        to: '/send-final-demand',
+        icon: <CIcon icon={cilStar} customClassName="nav-icon" />
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
     roles: ['ROLE_CHEF_RESOURCES'],
     name: 'Ressources',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
