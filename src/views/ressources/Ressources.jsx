@@ -487,6 +487,7 @@ const Ressources = () => {
                     </option>
                   )
                 })}
+
               </CFormSelect>
             </div>
           </div>

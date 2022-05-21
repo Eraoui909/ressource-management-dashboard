@@ -27,7 +27,8 @@ import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
-  AddOffer
+  AddOffer,
+  getDemands
 } from 'src/services/OfferService'
 import {
   getAllDemands
@@ -42,20 +43,46 @@ const AllRequests = () => {
   const [title, setTitle] = useState("")
   const [description, setdescription] = useState("")
   const [demands, setDemands] = useState([])
-  const [check, setCheck] = useState("")
   const [visibleLg, setVisibleLg] = useState(false)
 
   useEffect(() => {
-    getAllRequests().then((resp) => {
-      console.log(resp)
+    getDemands().then((resp) => {
+      // console.log(resp)
       setRequests(resp)
     })
   }, [])
 
+  const handelAdd = () => {
+    // title.trim() === '' ? setProviderERROR('provider field is required') : setProviderERROR('')
 
+    AddOffer({
+      title: title,
+      description: description,
+      status:"En cour de traitement",
+      resources: demands
+    })
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Offer has been sent successfully',
+      showConfirmButton: false,
+      timer: 1500,
+    })
+  }
 
-
-
+  const HandelAddtolist = (e) =>{
+      // let a = demands
+      // a.push(e)
+      // setDemands(a)
+      // console.log(demands)
+      e.map((demand,i)=>{
+        return(
+          demands.push(demand)
+        )
+      })
+      setDemands(demands)
+      console.log(demands)
+  }
 
 
 
@@ -69,6 +96,9 @@ const AllRequests = () => {
   return (
     <>
       <div style={{ backgroundColor: '#fff', padding: '15px' }}>
+        <CButton color="success" onClick={() => setVisibleLg(!visibleLg)} style={styles.ha_btn_font}>
+          Send The Offer
+        </CButton>
         <CRow>
           {requests.map((request, index) => {
             if (request.speed == null) {
@@ -105,7 +135,7 @@ const AllRequests = () => {
                         <hr />
                         <p>{request.date}</p>
                       </CCardText>
-                      <CButton href="#">Go somewhere</CButton>
+                      <CButton onClick={() => HandelAddtolist(request.resources)}>ADD To List</CButton>
                     </CCardBody>
                   </CCard>
                 </CCol>
@@ -115,6 +145,46 @@ const AllRequests = () => {
           )}
         </CRow>
       </div>
+
+      <CModal size="lg" visible={visibleLg} onClose={() => setVisibleLg(false)}>
+        <CModalHeader>
+          <CModalTitle>Send Offer</CModalTitle>
+        </CModalHeader>
+
+        <CModalBody>
+          <CForm>
+            <div className="mb-3">
+              <CFormLabel htmlFor="exampleFormControlInput1">Title</CFormLabel>
+              <CFormInput
+                type="text"
+                id="exampleFormControlInput1"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <CFormLabel htmlFor="exampleFormControlInput1">Description</CFormLabel>
+              <CFormInput
+                type="text"
+                id="exampleFormControlInput1"
+                value={description}
+                onChange={(e) => setdescription(e.target.value)}
+              />
+            </div>
+          </CForm>
+
+          <CButton onClick={handelAdd} color="success" style={{ margin: '10px' }}>
+            Send
+          </CButton>
+          <CButton
+            color="danger"
+            onClick={() => setVisibleLg(!visibleLg)}
+            style={{ margin: '10px' }}
+          >
+            Cancel
+          </CButton>
+        </CModalBody>
+      </CModal>
     </>
   )
 }

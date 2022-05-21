@@ -54,3 +54,9 @@ export const sendDemandToRespRes = async (dem) =>{
 
   return demand;
 }
+
+export const getAllSentRequests = async () =>{
+  let {data:requests} = await axios.get(CHEFDEP_API_URL+"/chefDepartement/sent-requests")
+
+  return requests;
+}
