@@ -14,7 +14,7 @@ import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
-  getOffers
+  getOffers , deleteProvider
 } from '../../services/OfferService'
 
 const MySwal = withReactContent(Swal)
@@ -22,14 +22,35 @@ const MySwal = withReactContent(Swal)
 const AllOffers = () => {
 
   const [requests, setRequests] = useState([])
+  let [idd, setIdd] = useState("")
+  let [iddd, setIddd] = useState("")
+  let [name, setName] = useState("")
+  let [email, setEmail] = useState("")
+  let [price, setPrice] = useState(9999999)
 
   useEffect(() => {
     getOffers().then((resp) => {
       console.log(resp)
       setRequests(resp)
+      
     })
   }, [])
 
+  const confirmer = (value) =>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to proceed ?",
+      showCancelButton: true,
+      confirmButtonText: 'Yes'
+    }).then(function (result) {
+      if (result.value) {
+        console.log(value)
+        let offrr = deleteProvider(value)
+        console.log(offrr)
+        
+      }
+    });
+  }
 
   return (
     <>
@@ -41,14 +62,15 @@ const AllOffers = () => {
                 <CCol key={index} sm={6} className="mb-4">
                   <CCard>
                     <CCardBody>
-                      <CCardTitle>{request.title}</CCardTitle>
-                      <CCardTitle>
-                        <CBadge color="info" className="ms-2">
+                      <CCardTitle>{request.title}
+                        <CBadge color="info" style={{ float: "right" }}>
                           {request.status}
                         </CBadge>
                       </CCardTitle>
+
                       <hr />
                       <CCardTitle>
+
                         <p>Description:</p>
                       </CCardTitle>
                       <p>{request.description}</p>
@@ -72,14 +94,49 @@ const AllOffers = () => {
                                   {resource.resolution && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resolution : </span> {resource.resolution}</p>)}
                                   <p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Qte : </span> {resource.qte}</p>
                                 </div>
-                                <p>{"}"}</p>
+
                               </div>
                             )
                           })
                         }
                         <hr />
-                        <p>{request.date}</p>
+                        <p>Date :{request.date}</p>
                       </CCardText>
+                      <hr />
+
+                      {request.providers && request.providers.map((provider,i)=>{
+                        
+                        if (parseInt(provider.price , 10 )< price){
+                          setPrice(parseInt(provider.price , 10 ))
+                          setEmail(provider.email)
+                          setName(provider.name)
+                          setIdd(""+request.id+","+provider.id)
+                          console.log(request.id)
+                        }
+
+
+
+                      })}
+                      {
+                        request.providers && (
+                        
+                          <CCardText className='row'>
+                            <CCardTitle>
+                              Best Provider:
+                              <button className='btn btn-danger text-light' value={idd} style={{ float: "right" }} onClick={(e)=>{
+                                  confirmer(e.target.value)
+                              }}>éliminer</button>
+                            </CCardTitle>
+                            <span className='font-weight-bold col-6 mb-3'>Compane name :</span>
+                            <span className='font-weight-bold col-6 mb-3'> {name}</span>
+                            <span className='font-weight-bold col-6 mb-3'>Email :</span>
+                            <span className='font-weight-bold col-6 mb-3'> {email}</span>
+                            <hr className='col-12 m-auto' style={{ maxWidth: "300px" }} />
+                            <div className='col-12' />
+                            <span className='font-weight-bold col-6 mt-3'>Price :</span>
+                            <span className='font-weight-bold col-6 mt-3'> {price} (DH)</span>
+                          </CCardText>)
+                      }
                     </CCardBody>
                   </CCard>
                 </CCol>

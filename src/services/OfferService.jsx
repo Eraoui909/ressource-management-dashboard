@@ -22,3 +22,13 @@ export const AddOffer = async (offer) => {
     return error
   })
 }
+
+export const deleteProvider = async (value) => {
+  await axios.get(RESOURCES_API_URL+'/offre/Providers/delete/'+value)
+  .then((response) => {
+    return response
+  })
+  .catch((error) => {
+    return error
+  })
+}
