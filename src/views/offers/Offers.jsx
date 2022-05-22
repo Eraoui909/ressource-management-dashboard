@@ -58,7 +58,7 @@ const AllRequests = () => {
     AddOffer({
       title: title,
       description: description,
-      status:"En cour de traitement",
+      status: "En cour de traitement",
       resources: demands
     })
     Swal.fire({
@@ -70,18 +70,18 @@ const AllRequests = () => {
     })
   }
 
-  const HandelAddtolist = (e) =>{
-      // let a = demands
-      // a.push(e)
-      // setDemands(a)
-      // console.log(demands)
-      e.map((demand,i)=>{
-        return(
-          demands.push(demand)
-        )
-      })
-      setDemands(demands)
-      console.log(demands)
+  const HandelAddtolist = (e) => {
+    // let a = demands
+    // a.push(e)
+    // setDemands(a)
+    // console.log(demands)
+    e.map((demand, i) => {
+      return (
+        demands.push(demand)
+      )
+    })
+    setDemands(demands)
+    console.log(demands)
   }
 
 

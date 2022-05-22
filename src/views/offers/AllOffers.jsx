@@ -14,7 +14,7 @@ import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
-  getOffers , deleteProvider
+  getOffers, deleteProvider
 } from '../../services/OfferService'
 
 const MySwal = withReactContent(Swal)
@@ -32,11 +32,11 @@ const AllOffers = () => {
     getOffers().then((resp) => {
       console.log(resp)
       setRequests(resp)
-      
+
     })
   }, [])
 
-  const confirmer = (value) =>{
+  const confirmer = (value) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "Are you sure you want to proceed ?",
@@ -47,7 +47,7 @@ const AllOffers = () => {
         console.log(value)
         let offrr = deleteProvider(value)
         console.log(offrr)
-        
+
       }
     });
   }
@@ -104,13 +104,13 @@ const AllOffers = () => {
                       </CCardText>
                       <hr />
 
-                      {request.providers && request.providers.map((provider,i)=>{
-                        
-                        if (parseInt(provider.price , 10 )< price){
-                          setPrice(parseInt(provider.price , 10 ))
+                      {request.providers && request.providers.map((provider, i) => {
+
+                        if (parseInt(provider.price, 10) < price) {
+                          setPrice(parseInt(provider.price, 10))
                           setEmail(provider.email)
                           setName(provider.name)
-                          setIdd(""+request.id+","+provider.id)
+                          setIdd("" + request.id + "," + provider.id)
                           console.log(request.id)
                         }
 
@@ -119,12 +119,12 @@ const AllOffers = () => {
                       })}
                       {
                         request.providers && (
-                        
+
                           <CCardText className='row'>
                             <CCardTitle>
                               Best Provider:
-                              <button className='btn btn-danger text-light' value={idd} style={{ float: "right" }} onClick={(e)=>{
-                                  confirmer(e.target.value)
+                              <button className='btn btn-danger text-light' value={idd} style={{ float: "right" }} onClick={(e) => {
+                                confirmer(e.target.value)
                               }}>éliminer</button>
                             </CCardTitle>
                             <span className='font-weight-bold col-6 mb-3'>Compane name :</span>
