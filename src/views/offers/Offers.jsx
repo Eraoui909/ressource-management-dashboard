@@ -71,6 +71,9 @@ const AllRequests = () => {
       showConfirmButton: false,
       timer: 1500,
     })
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
   }
 
   const HandelAddtolist = (ids,e) =>{

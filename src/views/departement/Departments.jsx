@@ -204,7 +204,7 @@ const Teachers = () => {
           <CModalTitle>Modify Department</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          {nameERROR && (
+          {/* {nameERROR && (
             <CAlert visible={true} color="danger">
               {nameERROR}
             </CAlert>
@@ -223,7 +223,7 @@ const Teachers = () => {
             <CAlert visible={true} color="danger">
               {chef_dep_emailERROR}
             </CAlert>
-          )}
+          )} */}
 
           <CForm>
             <div className="mb-3">

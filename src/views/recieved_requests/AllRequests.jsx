@@ -84,7 +84,6 @@ const AllRequests = () => {
                           request.resources.map((resource, i) => {
                             return (
                               <div key={i}>
-                                {/* <p>{"{"}</p> */}
                                 <div className='px-4'>
                                   {resource.speed && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Printer</p>)}
                                   {(resource.cpu != null) && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Computer</p>)}
@@ -97,7 +96,6 @@ const AllRequests = () => {
                                   {resource.resolution && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resolution : </span> {resource.resolution}</p>)}
                                   <p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Qte : </span> {resource.qte}</p>
                                 </div>
-                                {/* <p>{"}"}</p> */}
                               </div>
                             )
                           })
@@ -105,7 +103,6 @@ const AllRequests = () => {
                         <hr />
                         <p>{request.date}</p>
                       </CCardText>
-                      <CButton href="#">Go somewhere</CButton>
                     </CCardBody>
                   </CCard>
                 </CCol>
