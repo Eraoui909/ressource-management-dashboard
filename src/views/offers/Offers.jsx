@@ -28,7 +28,9 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
   AddOffer,
-  getDemands
+  getDemands,
+  UpdateStatus,
+  getDemand
 } from 'src/services/OfferService'
 import {
   getAllDemands
@@ -43,11 +45,12 @@ const AllRequests = () => {
   const [title, setTitle] = useState("")
   const [description, setdescription] = useState("")
   const [demands, setDemands] = useState([])
+  const [demand, setDemand] = useState([])
   const [visibleLg, setVisibleLg] = useState(false)
 
   useEffect(() => {
     getDemands().then((resp) => {
-      // console.log(resp)
+      console.log(resp)
       setRequests(resp)
     })
   }, [])
@@ -64,24 +67,30 @@ const AllRequests = () => {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: 'Offer has been sent successfully',
+      title: 'Offer Sent Successfuly',
       showConfirmButton: false,
       timer: 1500,
     })
   }
 
-  const HandelAddtolist = (e) => {
-    // let a = demands
-    // a.push(e)
-    // setDemands(a)
-    // console.log(demands)
-    e.map((demand, i) => {
-      return (
+  const HandelAddtolist = (ids,e) =>{
+    getDemand(ids).then((resp) =>{
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Resource has been added',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+    })
+    // setId(ids)
+    e.map((demand,i)=>{
+      return(
         demands.push(demand)
       )
     })
     setDemands(demands)
-    console.log(demands)
+    // console.log(sender)
   }
 
 
@@ -96,9 +105,14 @@ const AllRequests = () => {
   return (
     <>
       <div style={{ backgroundColor: '#fff', padding: '15px' }}>
-        <CButton color="success" onClick={() => setVisibleLg(!visibleLg)} style={styles.ha_btn_font}>
+      {requests.length > 0 &&
+      (<CButton color="success" onClick={() => setVisibleLg(!visibleLg)} style={styles.ha_btn_font}>
           Send The Offer
-        </CButton>
+        </CButton>)
+      }
+      {requests.length == 0 &&
+      (<CCardTitle>Nothing to send</CCardTitle>)
+      }
         <CRow>
           {requests.map((request, index) => {
             if (request.speed == null) {
@@ -114,7 +128,6 @@ const AllRequests = () => {
                           request.resources.map((resource, i) => {
                             return (
                               <div key={i}>
-                                {/* <p>{"{"}</p> */}
                                 <div className='px-4'>
                                   {resource.speed && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Printer</p>)}
                                   {(resource.cpu != null) && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resource : </span> Computer</p>)}
@@ -127,7 +140,6 @@ const AllRequests = () => {
                                   {resource.resolution && (<p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Resolution : </span> {resource.resolution}</p>)}
                                   <p><span className='font-weight-bold' style={{ fontWeight: "bold", minWidth: "100px", display: "inline-block" }}>Qte : </span> {resource.qte}</p>
                                 </div>
-                                {/* <p>{"}"}</p> */}
                               </div>
                             )
                           })
@@ -135,7 +147,10 @@ const AllRequests = () => {
                         <hr />
                         <p>{request.date}</p>
                       </CCardText>
-                      <CButton onClick={() => HandelAddtolist(request.resources)}>ADD To List</CButton>
+                      <CButton onClick={() =>
+                      {
+                        HandelAddtolist(request.id,request.resources)
+                      }}>ADD To List</CButton>
                     </CCardBody>
                   </CCard>
                 </CCol>
