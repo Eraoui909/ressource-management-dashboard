@@ -22,8 +22,11 @@ import {
   deletePrinter,
   getPrinter,
   updatePrinter,
-  getAllOwners,
 } from 'src/services/PrinterService'
+import {
+  getOwnersByDepartement,
+  getAllDepartements,
+} from 'src/services/ComputerService'
 import { CButton } from '@coreui/react'
 import { CFormLabel, CFormSelect } from '@coreui/react'
 import Swal from 'sweetalert2'
@@ -38,6 +41,7 @@ const Printers = () => {
   const [departements, setDepartements] = useState([])
   const [departement, setDepartement] = useState('')
   const [visibleLg, setVisibleLg] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(true)
   const [visibleUpdate, setVisibleUpdate] = useState(false)
   const [_id, setId] = useState('')
   const [provider, setProvider] = useState('')
@@ -56,11 +60,11 @@ const Printers = () => {
 
   useEffect(() => {
     getAll().then((resp) => {
-      // console.log(resp);
+      console.log(resp);
       setPrinters(resp)
     })
 
-    getAllOwners().then((resp) => {
+    getAllDepartements().then((resp) => {
       // console.log(resp);
       setDepartements(resp)
     })
@@ -109,15 +113,29 @@ const Printers = () => {
   //   }
   // }
 
+  const departementSelected = (dep) => {
+    setDepartement(dep)
+    if (dep.trim() !== '') {
+      setIsDisabled(false)
+      getOwnersByDepartement(dep).then((resp) => {
+        // console.log(resp);
+        setOwners(resp)
+      })
+    } else {
+      setIsDisabled(true)
+      setOwner('')
+    }
+  }
+
   const handleUpdate = (id) => {
-    provider.trim() === '' ? setProviderERROR('provider field is required') : setProviderERROR('')
-    marque.trim() === '' ? setMarqueERROR('Marque field is required') : setMarqueERROR('')
-    speed.trim() === '' ? setSpeedERROR('Speed field is required') : setSpeedERROR('')
-    resolution.trim() === ''
-      ? setResolutionERROR('Resolution field is required')
-      : setResolutionERROR('')
-    warranty.trim() === '' ? setWarrantyERROR('Warranty field is required') : setWarrantyERROR('')
-    date.trim() === '' ? setDateERROR('Date field is required') : setDateERROR('')
+    // provider.trim() === '' ? setProviderERROR('provider field is required') : setProviderERROR('')
+    // marque.trim() === '' ? setMarqueERROR('Marque field is required') : setMarqueERROR('')
+    // speed.trim() === '' ? setSpeedERROR('Speed field is required') : setSpeedERROR('')
+    // resolution.trim() === ''
+    //   ? setResolutionERROR('Resolution field is required')
+    //   : setResolutionERROR('')
+    // warranty.trim() === '' ? setWarrantyERROR('Warranty field is required') : setWarrantyERROR('')
+    // date.trim() === '' ? setDateERROR('Date field is required') : setDateERROR('')
 
     if (
       provider.trim() !== '' &&
@@ -126,7 +144,9 @@ const Printers = () => {
       resolution.trim() !== '' &&
       warranty.trim() !== '' &&
       date.trim() !== ''
-    ) {
+    )
+    console.log(owner)
+    {
       updatePrinter({
         id: _id,
         provider: provider,
@@ -135,7 +155,8 @@ const Printers = () => {
         resolution: resolution,
         warrantyPeriod: warranty,
         date: date,
-        affectedTo: owner,
+        affectedToOwner: owner,
+        affectedToDepartment: departement,
       })
 
       setVisibleUpdate(!visibleUpdate)
@@ -150,6 +171,9 @@ const Printers = () => {
         // console.log(resp);
         setPrinters(resp)
       })
+      setTimeout(() => {
+        window.location.reload()
+      }, 500)
     }
   }
 
@@ -189,9 +213,13 @@ const Printers = () => {
         getAll().then((resp) => {
           console.log(resp)
           setPrinters(resp)
+          setTimeout(() => {
+            window.location.reload()
+          }, 500)
         })
       }
     })
+
   }
 
   return (
@@ -227,7 +255,7 @@ const Printers = () => {
                     {t.affectedToDepartment ? t.affectedToDepartment : 'No One'}
                   </CTableDataCell>
                   <CTableDataCell>
-                    {t.affectedToOwner ? t.affectedToOwner.name : 'No One'}
+                    {t.affectedToOwner ? t.affectedToOwner.username : 'No One'}
                   </CTableDataCell>
                   <CTableDataCell>
                     <CButton
@@ -404,24 +432,47 @@ const Printers = () => {
                 }}
               />
             </div>
-            <div className="mb-3">
-              <CFormSelect
-                aria-label="Default select example"
-                onChange={(e) => {
-                  setOwner(owners[e.target.value])
-                  setAffectedTo(e.target.value)
-                }}
-                value={affectedTo}
-              >
-                <option value="-1">No One</option>
-                {owners.map((t, index) => {
-                  return (
-                    <option value={index} key={index}>
-                      {t.name}
-                    </option>
-                  )
-                })}
-              </CFormSelect>
+            <div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="exampleFormControlInput1">Affected to</CFormLabel>
+                <tr />
+                <CFormLabel htmlFor="exampleFormControlInput1">Departement</CFormLabel>
+                <CFormSelect
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    departementSelected(e.target.value)
+                  }}
+                >
+                  <option value={departement == null ? '' : departement}>
+                    {departement == null ? 'No One' : departement}
+                  </option>
+                  {departements.map((t, index) => {
+                    return (
+                      <option value={t.name} key={index}>
+                        {t.name}
+                      </option>
+                    )
+                  })}
+                </CFormSelect>
+                <tr />
+                <CFormLabel htmlFor="exampleFormControlInput1">Member</CFormLabel>
+                <CFormSelect
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    setOwner(owners[e.target.value])
+                  }}
+                disabled={isDisabled}
+                >
+                  <option value="">No One</option>
+                  {owners.map((t, index) => {
+                    return (
+                      <option value={index} key={index}>
+                        {t.username}
+                      </option>
+                    )
+                  })}
+                </CFormSelect>
+              </div>
             </div>
           </CForm>
 

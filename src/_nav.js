@@ -38,7 +38,7 @@ const _nav = [
     name: 'Sent Requests',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
-      
+
       {
         component: CNavItem,
         name: 'All Requests',
@@ -136,13 +136,13 @@ const _nav = [
       }
     ],
   },
-  {
-    component: CNavItem,
-    name: 'Teachers',
-    roles: ['ROLE_ADMIN'],
-    to: '/departement/teachers',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Teachers',
+  //   roles: ['ROLE_ADMIN'],
+  //   to: '/departement/teachers',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
   {
     component: CNavGroup,
     name: 'Offers',
@@ -163,13 +163,13 @@ const _nav = [
       }
     ],
   },
-  {
-    component: CNavItem,
-    name: 'ChefDep',
-    roles: ['ROLE_CHEF_DEP'],
-    to: '/chefDepartement/teachers',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'ChefDep',
+  //   roles: ['ROLE_CHEF_DEP'],
+  //   to: '/chefDepartement/teachers',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
   {
     component: CNavItem,
     name: 'my-resources',

@@ -87,6 +87,7 @@ const Computers = () => {
   }, [])
 
   const handleUpdate = (id) => {
+    console.log(owner)
     provider.trim() === '' ? setProviderERROR('provider field is required') : setProviderERROR('')
     CPU.trim() === '' ? setCPUERROR('CPU field is required') : setCPUERROR('')
     marque.trim() === '' ? setMarqueERROR('Marque field is required') : setMarqueERROR('')
@@ -131,6 +132,9 @@ const Computers = () => {
         console.log(resp)
         setComputers(resp)
       })
+      setTimeout(() => {
+        window.location.reload()
+      }, 500)
     }
   }
 
@@ -173,6 +177,9 @@ const Computers = () => {
         })
       }
     })
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
   }
 
   const departementSelected = (dep) => {
