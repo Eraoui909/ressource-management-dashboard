@@ -25,7 +25,7 @@ import { CButton } from '@coreui/react'
 import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { getAll, UpdateCommentaires } from './../../services/RespoMaintenanceService'
+import { getAll, UpdateCommentaires, SendMail } from './../../services/RespoMaintenanceService'
 
 const MySwal = withReactContent(Swal)
 
@@ -52,13 +52,9 @@ const ListesDesPannes = () => {
     })
   }, [])
 
-  const HandleEnvoyer = () =>{
-      UpdateCommentaires({
-          id:id,
-          commentaire:Commentaire,
-          etat: Etats 
-
-      })
+  const handleSendingMail = (Id) => {
+      console.log(Id)
+      SendMail(Id)
   }
 
 
@@ -85,7 +81,8 @@ const ListesDesPannes = () => {
               <CTableHeaderCell scope="col">Type</CTableHeaderCell>
               <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
               <CTableHeaderCell scope="col">période de garantie</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Envoyer</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Status</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
@@ -104,11 +101,17 @@ const ListesDesPannes = () => {
                       {new Date(t.warrantyPeriod) > new Date() ? "in warranty" : "" }
                     </CBadge>
                   </CTableDataCell>
+                  <CTableDataCell>
+                    <CBadge color="info" className="ms-2" style={{minWidth: "90px", marginRight: "10px"}}>
+                      {t.panne.etats }
+                    </CBadge>  
+                  </CTableDataCell>
 
                   <CTableDataCell>
-                    {(t.panne != null && t.panne.etats != "PROCESSED") && (
+                    
+                    {(t.panne != null) && (
                       <CButton
-                        className="btn btn-primary"
+                        className="btn btn-success"
                         onClick={() => {
                           setVisibleLgPanneModal(!visibleLgPanneModal)
                           setId(t.id)
@@ -117,18 +120,23 @@ const ListesDesPannes = () => {
                           setFrequencePanne(t.panne.frequencePanne)
                           setOrdrePanne(t.panne.ordrePanne)
                           setEtats(t.panne.etats)
+                          setCommentaire(t.panne.commentaire)
                         }}
                       >
-                        Envoyer Constat
+                        Details
                       </CButton>
                     )}
-                    {
-                      t.panne.etats == "PROCESSED" && (
-                        <CBadge color="success" className="ms-2">
-                          {t.panne.etats == "PROCESSED" ? "TERMINATED" : ""}
-                        </CBadge>
-                      )
-                    }
+                    {(t.panne != null) && (t.panne.etats == "TOCHANGE") && (
+                      <CButton
+                        className="btn btn-warning"
+                        style={{marginLeft: "10px"}}
+                        onClick={() => {
+                          handleSendingMail(t.id)
+                        }}
+                      >
+                        Mail Provider
+                      </CButton>
+                    )}
                   </CTableDataCell>
                 </CTableRow>
               )
@@ -141,7 +149,7 @@ const ListesDesPannes = () => {
               onClose={() => setVisibleLgPanneModal(false)}
             >
               <CModalHeader>
-                <CModalTitle>Suiver la Panne</CModalTitle>
+                <CModalTitle>Details</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm>
@@ -176,32 +184,12 @@ const ListesDesPannes = () => {
                   <CInputGroup className="mb-3">
                     <CFormLabel className="col-5 m-1">Etats</CFormLabel>
                     <CFormLabel className="col-1 m-1">:</CFormLabel>
-                    <CFormSelect
-                      aria-label="Default select example"
-                      onChange={(e) => {
-                        setEtats(e.target.value)
-                      }}
-                    >
-                      <option value="ENCOURS">ENCOURS</option>
-                      <option value="PROCESSED">PROCESSED</option>
-                      <option value="TOCHANGE">TOCHANGE</option>
-                      
-                    </CFormSelect>
+                    <CFormLabel className="col-1 m-1">{Etats}</CFormLabel>
                   </CInputGroup>
-
-                  <CFormLabel>Commentaire</CFormLabel>
                   <CInputGroup className="mb-3">
-                    <CFormTextarea
-                      value={Commentaire}
-                      onChange={(e) => setCommentaire(e.target.value)}
-                    ></CFormTextarea>
-                  </CInputGroup>
-
-                  <CInputGroup className="mb-3">
-                    <CFormLabel className="col-9 m-1"></CFormLabel>
-                    <CButton className="btn btn-lg" onClick={HandleEnvoyer}>
-                      Envoyer
-                    </CButton>
+                    <CFormLabel className="col-5 m-1">Constat</CFormLabel>
+                    <CFormLabel className="col-1 m-1">:</CFormLabel>
+                    <CFormLabel className="col-1 m-1">{Commentaire}</CFormLabel>
                   </CInputGroup>
                 </CForm>
               </CModalBody>

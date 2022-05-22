@@ -432,7 +432,7 @@ const Ressources = () => {
             <div className="mb-2">
               <CFormLabel htmlFor="exampleFormControlInput1">Warranty Period</CFormLabel>
               <CFormInput
-                type="text"
+                type="date"
                 id="exampleFormControlInput1"
                 value={warranty}
                 onChange={(e) => {

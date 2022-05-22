@@ -4,7 +4,7 @@ import {
   CFormInput,
   CFormTextarea,
   CInputGroup,
-  CInputGroupText,
+  CBadge,
   CModal,
   CModalBody,
   CModalHeader,
@@ -82,9 +82,10 @@ const MyRessources = () => {
         <CTable bordered>
           <CTableHead>
             <CTableRow>
+              <CTableHeaderCell scope="col">Id</CTableHeaderCell>
               <CTableHeaderCell scope="col">Marque</CTableHeaderCell>
+              <CTableHeaderCell scope="col">Type</CTableHeaderCell>
               <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Date</CTableHeaderCell>
               <CTableHeaderCell scope="col">période de garantie</CTableHeaderCell>
               <CTableHeaderCell scope="col">Actions</CTableHeaderCell>
             </CTableRow>
@@ -93,15 +94,18 @@ const MyRessources = () => {
             {ressources.map((t, index) => {
               return (
                 <CTableRow key={index}>
+                  <CTableDataCell>{t.id}</CTableDataCell>
                   <CTableDataCell>{t.marque}</CTableDataCell>
+                  <CTableDataCell title=
+                    {t.speed ? "speed : " + t.speed + ",\nresolution: " + t.resolution : "CPU : " + t.cpu + ",\nRAM : " + t.ram }
+                  >{t.speed ? "Printer" : "Computer"}</CTableDataCell>
                   <CTableDataCell>{t.provider}</CTableDataCell>
-                  <CTableDataCell>{t.date}</CTableDataCell>
                   <CTableDataCell>{t.warrantyPeriod}</CTableDataCell>
 
                   <CTableDataCell>
                     {console.log(t.panne)}
 
-                    {t.panne == null && (
+                    {(t.panne == null || t.panne.etats == "PROCESSED") && (
                       <CButton
                         className="btn btn-warning"
                         onClick={() => {
@@ -113,21 +117,23 @@ const MyRessources = () => {
                       </CButton>
                     )}
 
-                    {t.panne != null && (
-                      <CButton
-                        className="btn btn-success"
-                        onClick={() => {
-                          setVisibleLgPanneModal1(!visibleLgPanneModal1)
-                          setId(t.id)
-                          setDateAppartition(t.panne.dateAppartition)
-                          setExplicationPanne(t.panne.explicationPanne)
-                          setFrequencePanne(t.panne.frequencePanne)
-                          setOrdrePanne(t.panne.ordrePanne)
-                          setEtats(t.panne.etats)
-                        }}
-                      >
-                        suiver la panne
-                      </CButton>
+                    {t.panne != null && t.panne.etats != "PROCESSED" && (
+                      <>
+                        <CButton
+                          className="btn btn-success"
+                          onClick={() => {
+                            setVisibleLgPanneModal1(!visibleLgPanneModal1)
+                            setId(t.id)
+                            setDateAppartition(t.panne.dateAppartition)
+                            setExplicationPanne(t.panne.explicationPanne)
+                            setFrequencePanne(t.panne.frequencePanne)
+                            setOrdrePanne(t.panne.ordrePanne)
+                            setEtats(t.panne.etats)
+                          } }
+                        >
+                          suiver la panne
+                        </CButton>
+                      </>
                     )}
                   </CTableDataCell>
                 </CTableRow>

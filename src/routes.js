@@ -20,6 +20,7 @@ const Requests = React.lazy(() => import('./views/recieved_requests/AllRequests'
 const SentRequests = React.lazy(() => import('./views/sent_requests/AllSentRequests'))
 const Printers = React.lazy(() => import('./views/ressources/Printers'))
 const Pannes = React.lazy(() => import('./views/RespoMaintenance/ListesDesPannes'))
+const PannesForResp = React.lazy(() => import('./views/Responsable/ListesDesPannes'))
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -77,6 +78,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/pannes' , name: 'Pannes' , element: Pannes},
+  { path: '/responsable/pannes' , name: 'PannesForResp' , element: PannesForResp},
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/chefDepartement/teachers', name: 'ChefDep', element: ChefDep },
   { path: '/departement/departments', name: 'Department', element: Departments },
