@@ -61,7 +61,7 @@ const AllRequests = () => {
     AddOffer({
       title: title,
       description: description,
-      status:"En cour de traitement",
+      status: "En cour de traitement",
       resources: demands
     })
     Swal.fire({

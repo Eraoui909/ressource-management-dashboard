@@ -54,11 +54,6 @@ const AllRequests = () => {
 
 
 
-
-
-
-
-
   const styles = {
     ha_btn_font: {
       color: '#FFF',
