@@ -2,6 +2,7 @@ import React from 'react'
 
 // Departement
 const Teachers = React.lazy(() => import('./views/departement/Teachers'))
+const Providers = React.lazy(() => import('./views/Responsable/Providers'))
 const Departments = React.lazy(() => import('./views/departement/Departments'))
 const Profile = React.lazy(() => import('./views/Users/Profile'))
 const Administrative = React.lazy(() => import('./views/departement/Administrative'))
@@ -79,6 +80,7 @@ const routes = [
   { path: '/profile', name: 'Profile', element: Profile },
   { path: '/pannes' , name: 'Pannes' , element: Pannes},
   { path: '/responsable/pannes' , name: 'PannesForResp' , element: PannesForResp},
+  { path: '/responsable/providers' , name: 'providers' , element: Providers},
   { path: '/departement/teachers', name: 'Teachers', element: Teachers },
   { path: '/chefDepartement/teachers', name: 'ChefDep', element: ChefDep },
   { path: '/departement/departments', name: 'Department', element: Departments },

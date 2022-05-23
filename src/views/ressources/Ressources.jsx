@@ -5,10 +5,11 @@ import { CFormLabel, CFormSelect } from '@coreui/react'
 import Swal from 'sweetalert2'
 import { getOwnersByDepartement, addComputer } from './../../services/ComputerService'
 import { addPrinter } from 'src/services/PrinterService'
-import { getAllDepartements } from './../../services/ComputerService'
+import { getAllDepartements, getUsers } from './../../services/ComputerService'
 
 const Ressources = () => {
   const [owners, setOwners] = useState([])
+  const [users, setUsers] = useState([])
   const [departements, setDepartements] = useState([])
   const [owner, setOwner] = useState('')
   const [departement, setDepartement] = useState('')
@@ -41,6 +42,11 @@ const Ressources = () => {
     getAllDepartements().then((resp) => {
       // console.log(resp);
       setDepartements(resp)
+    })
+
+    getUsers().then((resp) => {
+      console.log(resp);
+      setUsers(resp)
     })
   }, [])
 
@@ -295,14 +301,32 @@ const Ressources = () => {
         <CForm>
           <div className="mb-3">
             <CFormLabel htmlFor="exampleFormControlInput1">Provider</CFormLabel>
-            <CFormInput
-              type="text"
-              id="exampleFormControlInput1"
-              value={provider}
-              onChange={(e) => {
-                setProvider(e.target.value)
-              }}
-            />
+              <CFormSelect
+                aria-label="Default select example"
+                onChange={(e) => {
+                  setProvider(e.target.value)
+                }}
+              >
+                <option value="">No One</option>
+                {users.map((t, index) => {
+                  let test = false;
+                  t.authorities.forEach(element => {
+                    if (element.name == "ROLE_PROVIDER"){
+                      test = true;
+                    }
+                  });
+
+                  if (test){
+                    return (
+                      <option value={t.email} key={index}>
+                        {t.username}
+                      </option>
+                    )
+                  }
+                  
+                  
+                })}
+              </CFormSelect>
           </div>
 
           <div className="mb-3">

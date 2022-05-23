@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { RESOURCES_API_URL } from './config'
+import { API_URL, RESOURCES_API_URL } from './config'
 
 export const getOffers = async () => {
   let { data: offers } = await axios.get(RESOURCES_API_URL+'/offer/')
@@ -38,6 +38,13 @@ export const UpdateStatus = async (demand) => {
     return error
   })
 }
+
+export const eliminate = async (id) => {
+  let { data: Owners } = await axios.post(RESOURCES_API_URL + '/profile/setEliminated/' + id)
+  return Owners
+}
+
+
 
 export const deleteProvider = async (value) => {
   await axios.get(RESOURCES_API_URL+'/offre/Providers/delete/'+value)

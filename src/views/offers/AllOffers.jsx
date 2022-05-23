@@ -14,7 +14,7 @@ import { CFormLabel } from '@coreui/react'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import {
-  getOffers, deleteProvider
+  getOffers, deleteProvider, eliminate
 } from '../../services/OfferService'
 
 const MySwal = withReactContent(Swal)
@@ -23,6 +23,7 @@ const AllOffers = () => {
 
   const [requests, setRequests] = useState([])
   let [idd, setIdd] = useState("")
+  let [providerId, setProviderId] = useState("")
   let [iddd, setIddd] = useState("")
   let [name, setName] = useState("")
   let [email, setEmail] = useState("")
@@ -46,6 +47,7 @@ const AllOffers = () => {
       if (result.value) {
         console.log(value)
         let offrr = deleteProvider(value)
+        let eliminated = eliminate(providerId)
         console.log(offrr)
 
       }
@@ -111,6 +113,7 @@ const AllOffers = () => {
                           setEmail(provider.email)
                           setName(provider.name)
                           setIdd("" + request.id + "," + provider.id)
+                          setProviderId(provider.id)
                           console.log(request.id)
                         }
 

@@ -17,6 +17,11 @@ export const getOwnersByDepartement = async (name) => {
   return Owners
 }
 
+export const getUsers = async () => {
+  let { data: Owners } = await axios.get(RESOURCES_API_URL + '/profile/users')
+  return Owners
+}
+
 export const getAllDepartements = async () => {
   let { data: Departements } = await axios.get(DEPARTMENT_API_URL + '/departments/')
   return Departements

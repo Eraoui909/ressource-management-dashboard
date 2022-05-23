@@ -30,7 +30,8 @@ import {
   AddOffer,
   getDemands,
   UpdateStatus,
-  getDemand
+  getDemand,
+  getStatus
 } from 'src/services/OfferService'
 import {
   getAllDemands
