@@ -55,6 +55,13 @@ const ListesDesPannes = () => {
   const handleSendingMail = (Id) => {
       console.log(Id)
       SendMail(Id)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Mail sent successfully',
+        showConfirmButton: false,
+        timer: 1500,
+      })
   }
 
 

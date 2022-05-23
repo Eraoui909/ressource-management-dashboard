@@ -59,6 +59,7 @@ const ListesDesPannes = () => {
           etat: Etats 
 
       })
+      window.location.reload();
   }
 
 
